@@ -1,3 +1,3 @@
-# Flashpoint
+# spidy
 
-# A simple searching tool for your device , find anything and everything.
+# A simple document search engine for your device.

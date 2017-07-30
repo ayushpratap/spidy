@@ -1,0 +1,240 @@
+[2017-07-29T11:53:32,173][INFO ][o.e.n.Node               ] [] initializing ...
+[2017-07-29T11:53:32,305][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [404.3gb], net total_space [450.5gb], spins? [possibly], types [ext4]
+[2017-07-29T11:53:32,306][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-07-29T11:53:32,309][INFO ][o.e.n.Node               ] node name [ESM7Atq] derived from node ID [ESM7AtqLRXWc9PF2kFHbVA]; set [node.name] to override
+[2017-07-29T11:53:32,309][INFO ][o.e.n.Node               ] version[5.5.1], pid[17430], build[19c13d0/2017-07-18T20:44:24.823Z], OS[Linux/4.10.0-28-generic/amd64], JVM[Oracle Corporation/OpenJDK 64-Bit Server VM/1.8.0_131/25.131-b11]
+[2017-07-29T11:53:32,309][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/home/development/Elastic/elasticsearch]
+[2017-07-29T11:53:33,381][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [aggs-matrix-stats]
+[2017-07-29T11:53:33,381][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [ingest-common]
+[2017-07-29T11:53:33,381][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-expression]
+[2017-07-29T11:53:33,381][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-groovy]
+[2017-07-29T11:53:33,382][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-mustache]
+[2017-07-29T11:53:33,382][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-painless]
+[2017-07-29T11:53:33,383][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [parent-join]
+[2017-07-29T11:53:33,383][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [percolator]
+[2017-07-29T11:53:33,383][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [reindex]
+[2017-07-29T11:53:33,384][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty3]
+[2017-07-29T11:53:33,384][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty4]
+[2017-07-29T11:53:33,385][INFO ][o.e.p.PluginsService     ] [ESM7Atq] no plugins loaded
+[2017-07-29T11:53:35,283][INFO ][o.e.d.DiscoveryModule    ] [ESM7Atq] using discovery type [zen]
+[2017-07-29T11:53:36,292][INFO ][o.e.n.Node               ] initialized
+[2017-07-29T11:53:36,292][INFO ][o.e.n.Node               ] [ESM7Atq] starting ...
+[2017-07-29T11:53:36,470][INFO ][o.e.t.TransportService   ] [ESM7Atq] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2017-07-29T11:53:36,486][WARN ][o.e.b.BootstrapChecks    ] [ESM7Atq] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2017-07-29T11:53:39,562][INFO ][o.e.c.s.ClusterService   ] [ESM7Atq] new_master {ESM7Atq}{ESM7AtqLRXWc9PF2kFHbVA}{5xTXqRGPSZqTY2R8GPn1UQ}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-07-29T11:53:39,597][INFO ][o.e.h.n.Netty4HttpServerTransport] [ESM7Atq] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2017-07-29T11:53:39,597][INFO ][o.e.n.Node               ] [ESM7Atq] started
+[2017-07-29T11:53:39,734][INFO ][o.e.g.GatewayService     ] [ESM7Atq] recovered [0] indices into cluster_state
+[2017-07-29T12:36:34,405][INFO ][o.e.n.Node               ] [ESM7Atq] stopping ...
+[2017-07-29T12:36:34,435][INFO ][o.e.n.Node               ] [ESM7Atq] stopped
+[2017-07-29T12:36:34,435][INFO ][o.e.n.Node               ] [ESM7Atq] closing ...
+[2017-07-29T12:36:34,450][INFO ][o.e.n.Node               ] [ESM7Atq] closed
+[2017-07-29T14:11:14,271][INFO ][o.e.n.Node               ] [] initializing ...
+[2017-07-29T14:11:14,408][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [404.4gb], net total_space [450.5gb], spins? [possibly], types [ext4]
+[2017-07-29T14:11:14,408][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-07-29T14:11:14,410][INFO ][o.e.n.Node               ] node name [ESM7Atq] derived from node ID [ESM7AtqLRXWc9PF2kFHbVA]; set [node.name] to override
+[2017-07-29T14:11:14,410][INFO ][o.e.n.Node               ] version[5.5.1], pid[29218], build[19c13d0/2017-07-18T20:44:24.823Z], OS[Linux/4.10.0-28-generic/amd64], JVM[Oracle Corporation/OpenJDK 64-Bit Server VM/1.8.0_131/25.131-b11]
+[2017-07-29T14:11:14,410][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/opt/lampp/htdocs/dev/Flashpoint/elasticsearch]
+[2017-07-29T14:11:15,552][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [aggs-matrix-stats]
+[2017-07-29T14:11:15,553][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [ingest-common]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-expression]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-groovy]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-mustache]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-painless]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [parent-join]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [percolator]
+[2017-07-29T14:11:15,554][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [reindex]
+[2017-07-29T14:11:15,555][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty3]
+[2017-07-29T14:11:15,555][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty4]
+[2017-07-29T14:11:15,556][INFO ][o.e.p.PluginsService     ] [ESM7Atq] no plugins loaded
+[2017-07-29T14:11:17,565][INFO ][o.e.d.DiscoveryModule    ] [ESM7Atq] using discovery type [zen]
+[2017-07-29T14:11:18,342][INFO ][o.e.n.Node               ] initialized
+[2017-07-29T14:11:18,343][INFO ][o.e.n.Node               ] [ESM7Atq] starting ...
+[2017-07-29T14:11:18,524][INFO ][o.e.t.TransportService   ] [ESM7Atq] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2017-07-29T14:11:18,537][WARN ][o.e.b.BootstrapChecks    ] [ESM7Atq] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2017-07-29T14:11:21,613][INFO ][o.e.c.s.ClusterService   ] [ESM7Atq] new_master {ESM7Atq}{ESM7AtqLRXWc9PF2kFHbVA}{P1BuSRP3TZS6s6Z-r8fkhw}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-07-29T14:11:21,641][INFO ][o.e.h.n.Netty4HttpServerTransport] [ESM7Atq] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2017-07-29T14:11:21,641][INFO ][o.e.n.Node               ] [ESM7Atq] started
+[2017-07-29T14:11:21,744][INFO ][o.e.g.GatewayService     ] [ESM7Atq] recovered [0] indices into cluster_state
+[2017-07-29T14:13:04,337][INFO ][o.e.n.Node               ] [ESM7Atq] stopping ...
+[2017-07-29T14:13:04,367][INFO ][o.e.n.Node               ] [ESM7Atq] stopped
+[2017-07-29T14:13:04,367][INFO ][o.e.n.Node               ] [ESM7Atq] closing ...
+[2017-07-29T14:13:04,379][INFO ][o.e.n.Node               ] [ESM7Atq] closed
+[2017-07-29T21:29:33,032][INFO ][o.e.n.Node               ] [] initializing ...
+[2017-07-29T21:29:33,362][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [404.3gb], net total_space [450.5gb], spins? [possibly], types [ext4]
+[2017-07-29T21:29:33,363][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-07-29T21:29:33,364][INFO ][o.e.n.Node               ] node name [ESM7Atq] derived from node ID [ESM7AtqLRXWc9PF2kFHbVA]; set [node.name] to override
+[2017-07-29T21:29:33,365][INFO ][o.e.n.Node               ] version[5.5.1], pid[18517], build[19c13d0/2017-07-18T20:44:24.823Z], OS[Linux/4.10.0-28-generic/amd64], JVM[Oracle Corporation/OpenJDK 64-Bit Server VM/1.8.0_131/25.131-b11]
+[2017-07-29T21:29:33,365][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/opt/lampp/htdocs/dev/github/myrepo/Flashpoint/tools/elasticsearch]
+[2017-07-29T21:29:35,308][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [aggs-matrix-stats]
+[2017-07-29T21:29:35,308][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [ingest-common]
+[2017-07-29T21:29:35,308][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-expression]
+[2017-07-29T21:29:35,309][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-groovy]
+[2017-07-29T21:29:35,309][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-mustache]
+[2017-07-29T21:29:35,309][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-painless]
+[2017-07-29T21:29:35,309][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [parent-join]
+[2017-07-29T21:29:35,309][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [percolator]
+[2017-07-29T21:29:35,310][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [reindex]
+[2017-07-29T21:29:35,310][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty3]
+[2017-07-29T21:29:35,310][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty4]
+[2017-07-29T21:29:35,311][INFO ][o.e.p.PluginsService     ] [ESM7Atq] no plugins loaded
+[2017-07-29T21:29:38,071][INFO ][o.e.d.DiscoveryModule    ] [ESM7Atq] using discovery type [zen]
+[2017-07-29T21:29:38,903][INFO ][o.e.n.Node               ] initialized
+[2017-07-29T21:29:38,903][INFO ][o.e.n.Node               ] [ESM7Atq] starting ...
+[2017-07-29T21:29:39,268][INFO ][o.e.t.TransportService   ] [ESM7Atq] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2017-07-29T21:29:39,280][WARN ][o.e.b.BootstrapChecks    ] [ESM7Atq] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2017-07-29T21:29:42,376][INFO ][o.e.c.s.ClusterService   ] [ESM7Atq] new_master {ESM7Atq}{ESM7AtqLRXWc9PF2kFHbVA}{ZdOwO8MCS82BPMYtLGbqrw}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-07-29T21:29:42,428][INFO ][o.e.h.n.Netty4HttpServerTransport] [ESM7Atq] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2017-07-29T21:29:42,428][INFO ][o.e.n.Node               ] [ESM7Atq] started
+[2017-07-29T21:29:42,524][INFO ][o.e.g.GatewayService     ] [ESM7Atq] recovered [0] indices into cluster_state
+[2017-07-29T21:29:50,195][INFO ][o.e.n.Node               ] [ESM7Atq] stopping ...
+[2017-07-29T21:29:50,227][INFO ][o.e.n.Node               ] [ESM7Atq] stopped
+[2017-07-29T21:29:50,227][INFO ][o.e.n.Node               ] [ESM7Atq] closing ...
+[2017-07-29T21:29:50,240][INFO ][o.e.n.Node               ] [ESM7Atq] closed
+[2017-07-29T21:30:01,295][INFO ][o.e.n.Node               ] [] initializing ...
+[2017-07-29T21:30:01,446][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [404.3gb], net total_space [450.5gb], spins? [possibly], types [ext4]
+[2017-07-29T21:30:01,446][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-07-29T21:30:01,449][INFO ][o.e.n.Node               ] node name [ESM7Atq] derived from node ID [ESM7AtqLRXWc9PF2kFHbVA]; set [node.name] to override
+[2017-07-29T21:30:01,450][INFO ][o.e.n.Node               ] version[5.5.1], pid[18673], build[19c13d0/2017-07-18T20:44:24.823Z], OS[Linux/4.10.0-28-generic/amd64], JVM[Oracle Corporation/OpenJDK 64-Bit Server VM/1.8.0_131/25.131-b11]
+[2017-07-29T21:30:01,450][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/opt/lampp/htdocs/dev/github/myrepo/Flashpoint/tools/elasticsearch]
+[2017-07-29T21:30:02,584][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [aggs-matrix-stats]
+[2017-07-29T21:30:02,584][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [ingest-common]
+[2017-07-29T21:30:02,584][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-expression]
+[2017-07-29T21:30:02,585][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-groovy]
+[2017-07-29T21:30:02,585][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-mustache]
+[2017-07-29T21:30:02,585][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-painless]
+[2017-07-29T21:30:02,586][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [parent-join]
+[2017-07-29T21:30:02,586][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [percolator]
+[2017-07-29T21:30:02,586][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [reindex]
+[2017-07-29T21:30:02,587][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty3]
+[2017-07-29T21:30:02,587][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty4]
+[2017-07-29T21:30:02,588][INFO ][o.e.p.PluginsService     ] [ESM7Atq] no plugins loaded
+[2017-07-29T21:30:04,553][INFO ][o.e.d.DiscoveryModule    ] [ESM7Atq] using discovery type [zen]
+[2017-07-29T21:30:05,576][INFO ][o.e.n.Node               ] initialized
+[2017-07-29T21:30:05,576][INFO ][o.e.n.Node               ] [ESM7Atq] starting ...
+[2017-07-29T21:30:05,775][INFO ][o.e.t.TransportService   ] [ESM7Atq] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2017-07-29T21:30:05,808][WARN ][o.e.b.BootstrapChecks    ] [ESM7Atq] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2017-07-29T21:30:08,894][INFO ][o.e.c.s.ClusterService   ] [ESM7Atq] new_master {ESM7Atq}{ESM7AtqLRXWc9PF2kFHbVA}{shgnWKvoR6WIvf1MWRT4dA}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-07-29T21:30:08,937][INFO ][o.e.h.n.Netty4HttpServerTransport] [ESM7Atq] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2017-07-29T21:30:08,937][INFO ][o.e.n.Node               ] [ESM7Atq] started
+[2017-07-29T21:30:09,036][INFO ][o.e.g.GatewayService     ] [ESM7Atq] recovered [0] indices into cluster_state
+[2017-07-29T21:32:04,931][INFO ][o.e.n.Node               ] [ESM7Atq] stopping ...
+[2017-07-29T21:32:04,954][INFO ][o.e.n.Node               ] [ESM7Atq] stopped
+[2017-07-29T21:32:04,954][INFO ][o.e.n.Node               ] [ESM7Atq] closing ...
+[2017-07-29T21:32:04,967][INFO ][o.e.n.Node               ] [ESM7Atq] closed
+[2017-07-29T21:32:19,709][INFO ][o.e.n.Node               ] [] initializing ...
+[2017-07-29T21:32:19,891][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [404.3gb], net total_space [450.5gb], spins? [possibly], types [ext4]
+[2017-07-29T21:32:19,891][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-07-29T21:32:19,893][INFO ][o.e.n.Node               ] node name [ESM7Atq] derived from node ID [ESM7AtqLRXWc9PF2kFHbVA]; set [node.name] to override
+[2017-07-29T21:32:19,893][INFO ][o.e.n.Node               ] version[5.5.1], pid[19083], build[19c13d0/2017-07-18T20:44:24.823Z], OS[Linux/4.10.0-28-generic/amd64], JVM[Oracle Corporation/OpenJDK 64-Bit Server VM/1.8.0_131/25.131-b11]
+[2017-07-29T21:32:19,893][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/opt/lampp/htdocs/dev/github/myrepo/Flashpoint/tools/elasticsearch]
+[2017-07-29T21:32:21,025][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [aggs-matrix-stats]
+[2017-07-29T21:32:21,025][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [ingest-common]
+[2017-07-29T21:32:21,026][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-expression]
+[2017-07-29T21:32:21,026][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-groovy]
+[2017-07-29T21:32:21,026][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-mustache]
+[2017-07-29T21:32:21,026][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-painless]
+[2017-07-29T21:32:21,027][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [parent-join]
+[2017-07-29T21:32:21,028][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [percolator]
+[2017-07-29T21:32:21,028][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [reindex]
+[2017-07-29T21:32:21,029][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty3]
+[2017-07-29T21:32:21,029][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty4]
+[2017-07-29T21:32:21,030][INFO ][o.e.p.PluginsService     ] [ESM7Atq] no plugins loaded
+[2017-07-29T21:32:23,161][INFO ][o.e.d.DiscoveryModule    ] [ESM7Atq] using discovery type [zen]
+[2017-07-29T21:32:24,121][INFO ][o.e.n.Node               ] initialized
+[2017-07-29T21:32:24,121][INFO ][o.e.n.Node               ] [ESM7Atq] starting ...
+[2017-07-29T21:32:24,324][INFO ][o.e.t.TransportService   ] [ESM7Atq] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2017-07-29T21:32:24,353][WARN ][o.e.b.BootstrapChecks    ] [ESM7Atq] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2017-07-29T21:32:27,442][INFO ][o.e.c.s.ClusterService   ] [ESM7Atq] new_master {ESM7Atq}{ESM7AtqLRXWc9PF2kFHbVA}{kKesf4N0SSK1DZOLzmHhhQ}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-07-29T21:32:27,478][INFO ][o.e.h.n.Netty4HttpServerTransport] [ESM7Atq] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2017-07-29T21:32:27,478][INFO ][o.e.n.Node               ] [ESM7Atq] started
+[2017-07-29T21:32:27,590][INFO ][o.e.g.GatewayService     ] [ESM7Atq] recovered [0] indices into cluster_state
+[2017-07-29T21:33:45,853][INFO ][o.e.n.Node               ] [ESM7Atq] stopping ...
+[2017-07-29T21:33:45,881][INFO ][o.e.n.Node               ] [ESM7Atq] stopped
+[2017-07-29T21:33:45,881][INFO ][o.e.n.Node               ] [ESM7Atq] closing ...
+[2017-07-29T21:33:45,891][INFO ][o.e.n.Node               ] [ESM7Atq] closed
+[2017-07-29T21:34:27,279][INFO ][o.e.n.Node               ] [] initializing ...
+[2017-07-29T21:34:27,415][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [404.3gb], net total_space [450.5gb], spins? [possibly], types [ext4]
+[2017-07-29T21:34:27,416][INFO ][o.e.e.NodeEnvironment    ] [ESM7Atq] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-07-29T21:34:27,419][INFO ][o.e.n.Node               ] node name [ESM7Atq] derived from node ID [ESM7AtqLRXWc9PF2kFHbVA]; set [node.name] to override
+[2017-07-29T21:34:27,419][INFO ][o.e.n.Node               ] version[5.5.1], pid[19434], build[19c13d0/2017-07-18T20:44:24.823Z], OS[Linux/4.10.0-28-generic/amd64], JVM[Oracle Corporation/OpenJDK 64-Bit Server VM/1.8.0_131/25.131-b11]
+[2017-07-29T21:34:27,420][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/opt/lampp/htdocs/dev/github/myrepo/Flashpoint/tools/elasticsearch]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [aggs-matrix-stats]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [ingest-common]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-expression]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-groovy]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-mustache]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [lang-painless]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [parent-join]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [percolator]
+[2017-07-29T21:34:28,565][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [reindex]
+[2017-07-29T21:34:28,566][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty3]
+[2017-07-29T21:34:28,566][INFO ][o.e.p.PluginsService     ] [ESM7Atq] loaded module [transport-netty4]
+[2017-07-29T21:34:28,566][INFO ][o.e.p.PluginsService     ] [ESM7Atq] no plugins loaded
+[2017-07-29T21:34:30,679][INFO ][o.e.d.DiscoveryModule    ] [ESM7Atq] using discovery type [zen]
+[2017-07-29T21:34:31,852][INFO ][o.e.n.Node               ] initialized
+[2017-07-29T21:34:31,852][INFO ][o.e.n.Node               ] [ESM7Atq] starting ...
+[2017-07-29T21:34:32,057][INFO ][o.e.t.TransportService   ] [ESM7Atq] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2017-07-29T21:34:32,076][WARN ][o.e.b.BootstrapChecks    ] [ESM7Atq] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2017-07-29T21:34:35,152][INFO ][o.e.c.s.ClusterService   ] [ESM7Atq] new_master {ESM7Atq}{ESM7AtqLRXWc9PF2kFHbVA}{iOyJsexWQr-fuoIKAYuApw}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-07-29T21:34:35,181][INFO ][o.e.h.n.Netty4HttpServerTransport] [ESM7Atq] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2017-07-29T21:34:35,182][INFO ][o.e.n.Node               ] [ESM7Atq] started
+[2017-07-29T21:34:35,280][INFO ][o.e.g.GatewayService     ] [ESM7Atq] recovered [0] indices into cluster_state
+[2017-07-29T21:35:05,937][INFO ][o.e.n.Node               ] [ESM7Atq] stopping ...
+[2017-07-29T21:35:05,959][INFO ][o.e.n.Node               ] [ESM7Atq] stopped
+[2017-07-29T21:35:05,959][INFO ][o.e.n.Node               ] [ESM7Atq] closing ...
+[2017-07-29T21:35:05,969][INFO ][o.e.n.Node               ] [ESM7Atq] closed
+[2017-07-29T22:01:42,986][ERROR][o.e.b.Bootstrap          ] Exception
+java.lang.RuntimeException: can not run elasticsearch as root
+	at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:106) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:194) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:351) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:123) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:114) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:67) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:122) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.main(Command.java:88) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:91) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:84) [elasticsearch-5.5.1.jar:5.5.1]
+[2017-07-29T22:01:43,013][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [] uncaught exception in thread [main]
+org.elasticsearch.bootstrap.StartupException: java.lang.RuntimeException: can not run elasticsearch as root
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:127) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:114) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:67) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:122) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.main(Command.java:88) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:91) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:84) ~[elasticsearch-5.5.1.jar:5.5.1]
+Caused by: java.lang.RuntimeException: can not run elasticsearch as root
+	at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:106) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:194) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:351) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:123) ~[elasticsearch-5.5.1.jar:5.5.1]
+	... 6 more
+[2017-07-29T22:08:57,390][ERROR][o.e.b.Bootstrap          ] Exception
+java.lang.RuntimeException: can not run elasticsearch as root
+	at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:106) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:194) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:351) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:123) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:114) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:67) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:122) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.main(Command.java:88) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:91) [elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:84) [elasticsearch-5.5.1.jar:5.5.1]
+[2017-07-29T22:08:57,399][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [] uncaught exception in thread [main]
+org.elasticsearch.bootstrap.StartupException: java.lang.RuntimeException: can not run elasticsearch as root
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:127) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:114) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:67) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:122) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.cli.Command.main(Command.java:88) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:91) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:84) ~[elasticsearch-5.5.1.jar:5.5.1]
+Caused by: java.lang.RuntimeException: can not run elasticsearch as root
+	at org.elasticsearch.bootstrap.Bootstrap.initializeNatives(Bootstrap.java:106) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:194) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:351) ~[elasticsearch-5.5.1.jar:5.5.1]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:123) ~[elasticsearch-5.5.1.jar:5.5.1]
+	... 6 more
