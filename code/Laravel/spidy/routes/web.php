@@ -11,9 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+//Route for index page
+Route::get('/',function(){
+	return view('welcome');
 });
+
+//Start the crawler
+Route::get('/crawl','crawlController@crawler');
 
 Route::get('/search_page',function(){
 	return view('search_page');

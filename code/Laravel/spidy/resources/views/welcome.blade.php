@@ -84,6 +84,7 @@
 
                 <div class="links">
                     <a href="/search_page">Go to search page</a>
+                    <a href="/crawl">Crawl : Let's walk</a>
                 </div>
             </div>
         </div>
