@@ -12,7 +12,7 @@ class crawlController extends Controller
     
   	public function crawler()
   	{
-        $dirPath = '/home/rex/1';
+        $dirPath = '/home/development/Pictures';
         $this->getFileFolderTree($dirPath);
   	}
 
@@ -43,7 +43,7 @@ class crawlController extends Controller
         foreach ($dirList as $dir) 
         {
           // Print name of the selected directory
-          echo "-Folder name : ",basename($dir)," Parent Folder :",basename($dirPath),"<br/>";
+          echo "Folder name : ",basename($dir)," Parent Folder :",basename($dirPath),"<br/>";
 
           // Recursivly search selected directory
           $this->goIntoFolder($dir); 
@@ -66,7 +66,7 @@ class crawlController extends Controller
       {
         foreach ($files as $file) 
         {
-            echo "File name : ",basename($file)," Parent Folder :",basename($dirPath),"<br/>";
+            echo "File name : ",basename($file)," **<b>Parent Folder</b>**:",basename($dirPath),"<br/>";
 
             // Write to XML file
         }        
