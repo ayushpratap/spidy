@@ -7,6 +7,8 @@ Requirements
 
 
 Addon
+- Crawling
+  • De-duplication
 - Parsing
   • Auto detect new and updated files
   • User interface to start parsing
@@ -15,5 +17,5 @@ Addon
 - Images in documents are parsed
 - Searching
   • Fuzzy Searching
-  • Suggestions
+  • Suggestions	
 - Redis DB required ??
