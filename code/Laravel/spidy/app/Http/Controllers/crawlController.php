@@ -18,8 +18,11 @@ class crawlController extends Controller
   		# 	> 0	- Check for updates only. 
   		# 		Update file-folder tree
   		
-  		$testXML = xml2arry('note.xml');
-  		print_r($testXML);
-  		
+  		$test = new RecursiveDirectoryIterator();
+      for (new RecursiveIteartorIterator($test) as $filename => $files) { 
+        # cod...
+        # 
+        echo $filename . ' - ' . $files->getSize() . ' bytes <br/>';
+      }
   	}
 }
