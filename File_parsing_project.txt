@@ -1,0 +1,19 @@
+Requirements
+- PDF documents from specified location is parsed and json object generated
+- Json object generated with completely readable by Elastic search
+- Searching
+  • Keyword search -> gives me file name/name-list
+  • String search -> extracts keywords -> gives me file name/name-list
+
+
+Addon
+- Parsing
+  • Auto detect new and updated files
+  • User interface to start parsing
+  • Multilevel folder search.
+- Other doc types like doc, xls, etc.. are parsed
+- Images in documents are parsed
+- Searching
+  • Fuzzy Searching
+  • Suggestions
+- Redis DB required ??

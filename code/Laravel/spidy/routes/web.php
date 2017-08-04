@@ -19,6 +19,7 @@ Route::get('/',function(){
 
 //Start the crawler
 Route::get('/crawl','crawlController@crawler');
+//Route::get('/crawl','testController@crawler');
 
 Route::get('/search_page',function(){
 	return view('search_page');
