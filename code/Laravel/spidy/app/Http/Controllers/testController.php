@@ -29,4 +29,9 @@ class testController extends Controller
         }
         echo "<hr><br/>";
       }
+
+      public function phpinfo()
+      {
+        phpinfo();
+      }
 }

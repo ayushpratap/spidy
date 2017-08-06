@@ -21,6 +21,7 @@ Route::get('/',function(){
 Route::get('/crawl','crawlController@crawler');
 //Route::get('/crawl','testController@crawler');
 
+Route::get('/phpinfo','testController@phpinfo');
 Route::get('/search_page',function(){
 	return view('search_page');
 });

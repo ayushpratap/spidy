@@ -19,3 +19,8 @@ Addon
   • Fuzzy Searching
   • Suggestions	
 - Redis DB required ??
+
+----------------------------------
+Points to be noted :
+	- We can't use PdfParser as it uses too much memory and is very slow.
+		* Hence try and find different solution.

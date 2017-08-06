@@ -1,0 +1,3265 @@
+Validation, Verification, and Testing of Computer Software 
+
+W. RICHARDS ADRION 
+
+Dw~smn of Mathematical and Computer Scwnces, Nattonal Scwnce Foundation, Washington, D.C. 20550 
+
+MARTHA A. BRANSTAD 
+
+Institute for Computer Sctence and Technology, Natmnal Bureau of Standards, Washington, D.C. 20234 
+
+AND 
+
+JOHN C. CHERNIAVSKY 
+
+Dwtsmn of Mathematical and Computer Sciences, Natmnal Scwnce Foundation, Washington, D.C. 20550 
+
+Software quahty is achieved through the apphcatlon of development techniques and the 
+use of verification procedures throughout the development process Careful consideratmn of specific quality attmbutes and validation reqmrements leads to the selection of a 
+balanced collection of review, analysis, and testing techmques for use throughout the life cycle. This paper surveys current verification, validation, and testing approaches and 
+discusses their strengths, weaknesses, and life-cycle usage. In conjunction with these, the 
+paper describes automated tools used to nnplement vahdation, verification, and testmg. In the discussion of new research thrusts, emphasis is gwen to the continued need to develop a stronger theoretical basis for testing and the need to employ combinations of tools and techniques that may vary over each apphcation. 
+Categories and Subject Descriptors: D 2 1 \[Software Engineering\]: Requirements/ 
+Specifications--methodologws, tools; 
+D 2 2 \[Software Engineering\]: Tools and 
+
+Techniques--dec~smn tables; modules and interfaces, structured programming; top- down programmtng; user ~nterfaces; 
+D.2.3 \[Software Engineering\]: Coding-- 
+standards; 
+D.2.4 \[Software Engineering\]. Program 
+Verification--assertion checkers, correctness proofs; rehabd~ty, validation; 
+D.2.5 \[Software Engineering\] Testmg and 
+Debugging--debugging a~ds; monitors; symbohc executmn; test data generators; 
+D.2.6 \[Software Engineering\] Programming Envvconments, D.2.7 lSoftware Engineering\]: Distribution and 
+Maintenance--documentatmn; versmn control; 
+D.2.8 
+\[Software 
+Engineering\]: 
+Metrics--complexity measures; 
+D.2.9 \[Software Engineering\]: 
+Management--hfe cycle; programming teams; software configuratmn management, software quahty assurance (SQA) 
+
+General Terms: Reliability, Verification 
+
+INTRODUCTION 
+
+Programming is an exercise in problem 
+solving. As with any problem-solving activ- 
+ity, determination of the validity of the 
+solution is part of the process. This survey 
+discusses testing and analysis techniques 
+that can be used to validate software and 
+to instill confidence in the quality of the 
+programming product. It presents a collec- 
+tion of verification techniques that can be 
+used throughout the development process 
+to facilitate software quality assurance. 
+Programs whose malfunction would have 
+severe consequences justify greater effort 
+in their validation. For example, software 
+used in the control of airplane landings or 
+directing of substantial money transfers re- 
+quires higher confidence in its proper func- 
+tioning than does a car pool locator pro- 
+gram. For each software project, the vali- 
+dation requirements, as well as the product 
+requirements, should be determined and 
+specified at the initiation of the project. 
+Project size, uniqueness, criticalness, the 
+
+© 1982 ACM 0010-4892/82/0600-0159 $00.00 
+Computing Surveys, Vol. 14, No. 2, June 1982
+
+160 
+• W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+CONTENTS 
+
+INTRODUCTION 1 VERIFICATION THROUGH THE LIFE CYCLE 1 1 The Requirements Defimtlon Stage 12 The Design Stage 1.3 The Construction Stage 1.4 The Operation and Maintenance Stage 2. VALIDATION VERIFICATION AND TESTING TECHNIQUES 2.1 Testmg Fundamentals 2 2 General Techmques 2.3 Test Data Generation 2.4 Functional Testmg Techmques 2 5 Structural Testing Techmques 2 6 Test Data Analyms 2 7 Statm Analyms Techniques 2 8 Combined Methods 3 CONCLUSIONS AND RESEARCH DIRECTIONS 4. GLOSSARY REFERENCES 
+
+v 
+
+Quality software Reliable Adequate 
+Correct 
+Complete Consistent Robust 
+Testable Understandable 
+Structured 
+Concise Self-descriptwe Measurable Accessible 
+Quantifiable Usable 
+Efficmnt 
+Transportable 
+Maintainable 
+Figuro 1. A hmrarcby of software quahty attributes 
+
+cost of malfunction, and project budget all 
+influence the validation needs. After the 
+validation requirements have been clearly 
+stated, specific techniques for validation, 
+verification, and testing (VV&T) can and 
+should be chosen. This paper concentrates 
+on VV&T in medium and large projects, 
+but many of the individual techniques are 
+also applicable to small projects. VV&T for 
+very small projects is discussed in BRAN80. 
+Some of the terms used in this article 
+may appear to have slightly different mean- 
+ings elsewhere in the literature. For that 
+reason, a glossary is included. 
+Verification, validation, and testing are 
+closely tied to 
+software quality. 
+There have 
+been many studies directed toward deter- 
+mining appropriate factors for software 
+quality \[BoEn78, McCA77, JONE76\]. A 
+number of attributes have been proposed; 
+the set given by Figure 1 is representative. 
+Each major quality attribute is given at the 
+left of the figure and its characterizations 
+are placed below and to the right of it. For 
+example, software with the quality attri- 
+bute of being 
+testable 
+has the characteri- 
+zation of being both 
+understandable 
+and 
+
+measurable, 
+where understandable soft- 
+ware has, in turn, the further characteriza- 
+tions of being 
+structured, concise, 
+and 
+self- 
+descrtptwe. 
+Most of these factors are qual- 
+itative rather than quantitative. 
+The main attributes of software quality 
+include reliability, testability, usability, ef- 
+ficiency, transportability, and maintainabil- 
+ity, but in practice, efficiency often conflicts 
+with other attributes. For example, using a 
+vendor-specific FORTRAN feature may in- 
+crease execution efficiency but decrease 
+code transportability. Each software devel- 
+opment project must determine which fac- 
+tors have priority and must specify their 
+relative importance. 
+Two quality factors, reliability and test- 
+ability, are tightly coupled with testing and 
+verification issues. Clearly, reliable soft- 
+ware must first be adequate: it must be 
+correct, complete, and consistent at each 
+stage of the development. Incomplete re- 
+quirements will lead to an inadequate de- 
+sign and an incorrect implementation. The 
+second reliability requirement, robustness, 
+represents the ability of the software to 
+continue to operate or survive within its 
+environment. 
+Testable software must exhibit under- 
+standability and measurability. Under- 
+standability requires the product at each 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+Validation, Verificatmn, and Testing of Computer Software • 
+161 
+stage to be represented in a structured, 
+concise, and self-descriptive manner so that 
+it can be compared with other stages, ana- 
+lyzed, and understood. Measurability re- 
+quires means to exist for actually instru- 
+menting or inserting probes, for testing, and 
+for evaluating the product of each stage. 
+Although good quality may be difficult to 
+define and measure, poor quality is glar- 
+ingly apparent. For example, software that 
+is filled with errors or does not work ob- 
+viously lacks quality. Program testing, by 
+executing the software using representative 
+data samples and comparing the actual re- 
+sults with the expected results, has been 
+the fundamental technique used to deter- 
+mine errors. However, testing is difficult, 
+time consuming, and often inadequate. 
+Consequently, increased emphasis has been 
+placed upon ensuring quality through- 
+out the entire development process, rather 
+than trying to do so after the process is 
+finished. 
+
+Life-cycle stage 
+Reqmrements 
+Design 
+Construction 
+Verification activities 
+Determine verification ap- proach Determine adequacy of re- 
+quirements Generate functional test data 
+Determine consistency of de- 
+sign with requirements Determine adequacy of design 
+Generate structural and func- tional test data 
+Determine consistency w~th 
+design Determine adequacy of imple- 
+mentation Generate structural and func- tional test data 
+Apply test data 
+Operation and Revenfy, commensurate with 
+Maintenance the level of redevelopment 
+
+1. VERIFICATION THROUGH THE LIFE 
+
+CYCLE 
+
+In this survey, we look at verification, vali- 
+dation, and testing techniques as they are 
+applied throughout the software develop- 
+ment life cycle. The traditional develop- 
+ment life cycle confines testing to a stage 
+immediately prior to operation and main- 
+tenance. All too often, testing is the only 
+verification technique used to determine 
+the adequacy of the software. When verifi- 
+cation is constrained to a single technique 
+and confined to the latter stages of devel- 
+opment, severe consequences can result, 
+since the later in the life cycle that an error 
+is found, the higher is the cost of its correc- 
+tion \[INFO79\]. Consequently, if lower cost 
+and higher quality are the goal, verification 
+should not be isolated to a single stage in 
+the development process but should be in- 
+corporated into each phase of development. 
+Barry Boehm \[BoEH77\] has stated that one 
+of the most prevalent and costly mistakes 
+made in software projects today is deferring 
+the activity of detecting and correcting soft- 
+ware problems until late in the project. The 
+primary reason for early investment in ver- 
+ification activity is to catch potentially ex- 
+pensive errors early before the cost of their 
+correction escalates. 
+
+Figure 
+2. Life-cycle verification activities 
+
+Figure 2 presents a life-cycle chart that 
+includes verification activities. The success 
+of performing verification throughout the 
+development cycle depends upon the exis- 
+tence of a clearly defined and stated prod- 
+uct at each development stage {e.g., a re- 
+quirement specification at the require- 
+ments stage). The more formal and precise 
+the statement of the development product, 
+the more amenable it is to the analysis 
+required to support verification. Many of 
+the new software development methodolo- 
+gies encourage a visible, analyzable product 
+in the early development stages. 
+
+1.1 The Requirements Definition Stage 
+
+The verification activities that accompany 
+the requirements stage of software devel- 
+opment are extremely significant. The ad- 
+equacy of the requirements, that is, their 
+correctness, completeness, and consistency, 
+must be thoroughly analyzed, and initial 
+test cases with the expected (correct) re- 
+sponses must be generated. The specific 
+analysis techniques that can be applied de- 
+pend upon the methodology used to specify 
+the requirements. At a minimum, disci- 
+
+Computing Surveys, VoL 14, No 2, June 1982
+
+162 
+• W. R. Adrion, M. A. Branstad, 
+
+plined inspection and review should be 
+used, with special care taken to determine 
+that all pertinent aspects of the project 
+have been stated in the requirements. 
+Omissions are particularly pernicious and 
+difficult to discover. Developing scenarios 
+of expected system use, while helping to 
+determine the test data and anticipated 
+results, also help to establish completeness. 
+The tests will form the core of the final test 
+set. Generating these tests also helps guar- 
+antee that the requirements are testable. 
+Vague or untestable requirements will leave 
+the validity of the delivered product in 
+doubt since it will be difficult to determine 
+if the delivered product is the required one. 
+The late discovery of requirements inade- 
+quancy can be very costly. A determination 
+of the criticality of software quality attri- 
+butes and the importance of validation 
+should be made at this stage. Both product 
+requirements and validation requirements 
+should be established. 
+Some tools to aid the developer in re- 
+quirements definition exist. Examples in- 
+clude Information System Design and Op- 
+timization System (ISDOS) with Program 
+Statement Language (PSL) and Program 
+Statement Analyzer (PSA) \[TEm77\], Soft- 
+ware Requirements Engineering Program 
+(SREP) \[ALFO77\], Structured Analysis and 
+Design Technique (SADT) \[Ross77\], and 
+Systematic Activity Modeling Method 
+(SAMM) \[LAMB78\]. All provide a disci- 
+plined framework for expressing require- 
+ments and thus aid in the checking of con- 
+sistency and completeness. Although these 
+tools provide only rudimentary verification 
+procedures, requirement verification is 
+greatly needed and it is a central subject of 
+research being performed by Teichroew 
+and his group at Michigan. 
+Ideally, organization of the verification 
+effort and test management activities 
+should be initiated during the requirements 
+stage, to be completed during preliminary 
+design. The general testing strategy, includ- 
+ing selection of test methods and test eval- 
+uation criteria, should be formulated, and 
+a test plan produced. If the project size and 
+criticality warrants, an independent test 
+team should be organized. In addition, a 
+test schedule with observable milestones 
+should be constructed. 
+
+and J. C. Cherniavsky 
+
+At this same time, the framework for 
+quality assurance and test documentation 
+should be estimated \[FIPS76, BUCK79, 
+IEEE79\]. FIPS Publication 38, the Na- 
+tional Bureau of Standards guideline for 
+software documentation during the devel- 
+opment phase, recommends that test doc- 
+umentation be prepared for all multipur- 
+pose or multiuser projects, and for all soft- 
+ware development projects costing over 
+$5000. FIPS Publication 38 recommends 
+the preparation of a test plan and a test 
+analysis report. The test plan should iden- 
+tify test milestones and provide the testing 
+schedule and requirements. In addition, it 
+should include both the specifications, de- 
+scriptions, and procedures for all tests, and 
+the test data reduction and evaluation cri- 
+teria. The test analysis report should sum- 
+marize and document the test results and 
+findings. The analysis summary should 
+present the software capabilities, deficien- 
+cies, and recommendations. As with all 
+types of documentation, the extent, formal- 
+ity, and level of detail of the test documen- 
+tation are dependent upon the management 
+practice of the development organization 
+and will vary depending upon the size, com- 
+plexity, and risk of the project. 
+
+1.2 The Design Stage 
+
+During detailed design, validation support 
+tools should be acquired or developed and 
+the test procedures themselves should be 
+produced. Test data to exercise the func- 
+tions introduced during the design process 
+as well as test cases based upon the struc- 
+ture of the system should be generated. 
+Thus, as the software development pro- 
+ceeds, a more effective set of test cases is 
+built up. 
+In addition to the generation of test cases 
+to be used during construction, the design 
+itself should be analyzed and examined for 
+errors. Simulation can be used to verify 
+properties of the system structures and sub- 
+system interaction. Design walk-throughs, 
+a form of manual simulation, can and 
+should be used by the developers to verify 
+the flow and logical structure of the system. 
+Design inspection should be performed by 
+the test team to discover missing cases, 
+faulty logic, module interface mismatches, 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+Validatmn, Vertfication,  and 
+data structure  inconsistencies,  erroneous 
+I/O  assumptions,  and user  interface  in- 
+adequacies.  Analysis techniques  are used 
+to  show  that the detailed  design is intern- 
+ally  consistent,  complete, and consistent 
+with  the  preliminary  design and require- 
+ments.  Although  much of the  verification  must 
+be  performed  manually, a formal  design 
+technique  can facilitate  the analysis  by pro- 
+viding  a clear  statement  of the  design.  Sev- 
+eral  such  design  techniques  are in current 
+use.  Top  Down  Design  proposed  by Harlan 
+Mills  of IBM  [MILL70],  Structured  Design 
+introduced  by L. Constantine  [YOUR79], 
+and  the  Jackson  Method [JACK75]  are ex- 
+amples  of manual  techniques.  The Design 
+Expression  and Configuration  Aid (DECA) 
+[CARP75],  the Process  Design Language 
+[CAIN75],  Higher Order Software 
+[HAM176],  and SPECIAL  [RouB76] are ex- 
+amples  of automated  design systems  or lan- 
+guages  that support  automated  design anal- 
+ysis  and consistency  checking. 
+1.3 The  Construction  Stage 
+Actual execution  of the  code  with test data 
+occurs  during  the construction  stage of de- 
+velopment.  Many testing  tools and tech- 
+niques  exist for this  stage  of system  devel- 
+opment.  Code walk-through  and code  in- 
+spection  [FAcA76]  are effective  manual 
+techniques.  Static analysis  techniques  de- 
+tect  errors  by analyzing  program character- 
+istics  such as data  flow and language  con- 
+struct  usage.  For programs  of  significant 
+size,  automated  tools are required  to per- 
+form this  analysis. Dynamic  analysis, per- 
+formed  as the  code  actually  executes,  is 
+used  to  determine  test coverage  through 
+various  instrumentation  techniques. For- 
+mal  verification  or proof  techniques  may be 
+used  on selected  code to  provide  further 
+quality  assurance. 
+During  the entire  test process,  careful 
+control  and management  of test  informa- 
+tion  is critical.  Test sets, test results,  and 
+test  reports  should be cataloged  and stored 
+in  a database.  For all but  very  small  sys- 
+tems,  automated  tools are required  to do  an 
+adequate  job, for the  bookkeeping  chores 
+alone become too  large to be  handled  man- 
+ually.  A test  driver,  test data  generation 
+Testing  of Computer  Software  • 163 
+aids,  test coverage  tools, test results  man- 
+agement  aids, and report  generators  are 
+usually  required. 
+When  using the design  methodologies  de- 
+scribed  in Section  1.2, at  the  construction 
+stage,  programmers  are given  design  speci- 
+fications  from which  they can first  code 
+individual  modules based on the  specifica- 
+tion,  and then  integrate  these modules  into 
+the  completed  system. Unless the module 
+being  developed  is a stand-alone  program, 
+it  will  require  considerable  auxiliary  soft- 
+ware  to exercise  and test  it. The  auxiliary 
+code  that sets up an appropriate  environ- 
+ment  and calls  the module  is termed  a 
+driver, whereas  code that simulates  the 
+results  of a routine  called by the  module  is 
+a stub. For  many  modules  both stubs  and 
+drivers  must be written  in order  to execute 
+a  test.  However,  techniques can be used  to 
+decrease  the auxiliary software  required for 
+testing.  For example,  when testing  is per- 
+formed incrementally,  an untested module 
+is  combined  with a tested  one and the  pack- 
+age  is then  tested  as one,  thus  lessening  the 
+number  of drivers  and/or stubs that must 
+be  written.  In 
+bottom-up testing, an ap- 
+proach  in which  the lowest  level of modules, 
+those  that call no other  modules,  are tested 
+first  and then  combined  for further  testing 
+with  the modules  that call them,  the need 
+for  writing  stubs can be eliminated.  How- 
+ever,  test drivers  must still be  constructed 
+for  bottom-up  testing. A second  approach, 
+top-down testing,  which starts with the ex- 
+ecutive  module  and incrementally  adds 
+modules  that it calls,  requires  that stubs  be 
+created  to simulate  the actions  of called 
+modules  that have  not yet been  incorpo- 
+rated  into the system,  but eliminates  the 
+need  for drivers.  The testing  order should 
+be  chosen  to coordinate  with the develop- 
+ment  methodology  used. 
+The  actual  performance  of each  test 
+requires  the execution  of code  with input 
+data,  an  examination  of the  output,  and a 
+comparison  of the  output  with the expected 
+results.  Since the testing  operation  is repet- 
+itive in  nature,  with the same  code executed 
+numerous  times with different  input values, 
+the  process  of test  execution  lends itself to 
+automation.  Programs that perform  this 
+function  are called 
+test  drivers,  test har- 
+nesses, 
+or test  systems. 
+Computing  Surveys,  Vol.  14, No  2, June  1982
+
+164 
+• W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+
+The simplest test drivers merely reini- 
+tiate the program with various input sets 
+and save each set of output. The more 
+sophisticated test systems, however, accept 
+not only data inputs, but also expected out- 
+puts, the names of routines to be executed, 
+values to be returned by called routines, 
+and other parameters. In addition to initi- 
+ating the test runs, these test systems also 
+compare the actual output with the ex- 
+pected output and issue concise reports of 
+the performance. TPL/2.0 \[PANZ78\], which 
+uses a test language to describe test proce- 
+dures, is an example of such a system. As is 
+typical, TPL/2.0, in addition to executing 
+the test, verifying the results, and produc- 
+ing reports, helps the user generate the 
+expected results. 
+PRUFSTAND \[SNEE78\] is an example 
+of such a comprehensive test system. It is 
+an interactive system in which data values 
+are either generated automatically or re- 
+quested from the user as they are needed. 
+PRUFSTAND is representative of inte- 
+grated tools systems for software testing 
+and is comprised of (1) a preprocessor to 
+instrument the code; a translator to convert 
+the source data descriptors into an internal 
+symbolic test data description table; (2) a 
+test driver to initialize and update the test 
+environment; (3) test stubs to simulate the 
+execution of called modules; (4) an execu- 
+tion monitor to trace control flow through 
+the test object; (5) a result validator; (6) a 
+test file manager; and (7) a postprocessor to 
+manage reports. 
+A side benefit of a comprehensive test 
+system is that it establishes a standard for- 
+mat for test materials. This standardization 
+is extremely useful for regression testing, 
+which is discussed in Section 1.4. Currently 
+automatic test driver systems are expensive 
+to build and consequently are not in wide- 
+spread use. 
+
+1.4 The Operation and Maintenance Stage 
+
+Over 50 percent of the life-cycle costs of a 
+software system are maintenance \[ZELK78, 
+EDP81, GAO81\]. As the system is used, it 
+often requires modification either to correct 
+errors or to augment its original capabili- 
+ties. After each modification, the system 
+must be retested. Such retesting activity is 
+termed 
+regression testing. 
+Usually only 
+those portions of the system affected by the 
+modifications need to be retested. However, 
+changes at a given level will necessitate 
+retesting and reverifying products, and up- 
+dating documentation at all levels below it. 
+For example, a change at the design level 
+requires design reverification, and unit re- 
+testing and subsystem and system retesting 
+at the construction level. During regression 
+testing, test cases generated during system 
+development are reused or used after ap- 
+propriate modifications. Since the mate- 
+rials prepared during development will be 
+reused during regression testing, the quality 
+of the test documentation will affect the 
+cost of regression testing. If test data cases 
+have been cataloged and preserved, dupli- 
+cation of effort will be minimized. 
+
+2. VALIDATION, VERIFICATION, AND 
+TESTING TECHNIQUES 
+
+Much intense research activity is directed 
+toward developing techniques and tools for 
+validation, verification, and testing. At the 
+same time, a variety of other (and some- 
+times effective) heuristic techniques and 
+procedures have been put into practice. To 
+describe this diverse collection in a coher- 
+ent and comparative way is difficult. In this 
+survey we try to follow the life-cycle frame- 
+work set forth above (summarized in Figure 
+2) and to integrate the great body of testing 
+heuristics used in practice with the more 
+recent research ideas. 
+
+2.1 Testing Fundamentals 
+
+Before discussing particular testing meth- 
+odologies, it is useful to examine testing and 
+its limitations. The objects that we test are 
+the elements that arise during the devel- 
+opment of software. These include code 
+modules, requirements and design specifi- 
+cations, data structures, and any other ob- 
+jects necessary for the correct development 
+and implementation of software. We often 
+use the term "program" in this survey to 
+refer to any object that may be concep- 
+tuaUy or actually executed. Thus, because 
+design or requirements specifications can 
+be conceptually executed (the flow of the 
+input can be followed through the steps 
+
+Computing Surveys, Vol 14, No. 2, June 1982
+
+Validation, Vertfication,  and 
+defined by the  specifications  to produce  a 
+simulated  output}, remarks  directed toward 
+"programs"  have broad  application. 
+We  view  a program  as a representation 
+of  a function.  The function  describes  the 
+relationship  of an  input  element  (called a 
+domain  element) to an  output  element 
+(called  a 
+range element). The testing  pro- 
+cess  is then  used  to ensure  that the program 
+faithfully  realizes the function.  The essen- 
+tial  components  of a program  test are the 
+program  in executable  form, a description 
+of  the  expected  behavior,  a way  of observ- 
+ing  program  behavior,  a description  of the 
+functional  domain, and a method  of deter- 
+mining  whether  the observed  behavior con- 
+forms  with the expected  behavior.  The test- 
+ing  process  consists  of obtaining  a valid 
+value  from the functional  domain (or an 
+invalid  value from outside  the functional 
+domain,  if  we are testing  for robustness}, 
+determining the  expected behavior,  execut- 
+ing  the  program  and observing  its behavior, 
+and  finally  comparing  that behavior  with 
+the  expected  behavior.  If the  expected  and 
+the  actual  behavior  agree, we say  that  the 
+test  instance  has succeeded;  otherwise, we 
+say  that  the test  instance  has uncovered  an 
+error. 
+Of  the  five  necessary  components  in the 
+testing  process,  it is  frequently  most diffi- 
+cult  to obtain  the description  of the  ex- 
+pected  behavior.  Consequently,  ad hoc 
+methods  often must be used,  including 
+hand  calculation,  simulation, and alternate 
+solutions  to the  same  problem.  Ideally, we 
+would  construct  an 
+oracle, a source  which, 
+for  any  given  input description,  can provide 
+a  complete  description  of the  corresponding 
+output  behavior. 
+We  can  classify  program  test methods 
+into 
+dynamic  analysis and static analysis 
+techniques.  Dynamic analysis requires  that 
+the  program  be executed,  and hence  follows 
+the  traditional  pattern of program  testing, 
+in  which  the program  is run  on some  test 
+cases  and the results  of the  program's  per- 
+formance  are examined  to check  whether 
+the  program  operated  as expected.  Static 
+analysis,  on the  other  hand,  does not usu- 
+ally  involve  actual program  execution  (al- 
+though  it may  involve  some form of concep- 
+tual  execution).  Common static analysis 
+techniques  include such compiler  tasks as 
+Testing  of Computer  Software  • 165 
+syntax  and type  checking.  We first  consider 
+some  aspects  of static  and dynamic  analysis 
+within  a general  discussion  of program  test- 
+ing. 
+A  complete  verification  of a program  at 
+any  stage  in the  life cycle  can be obtained 
+by  performing  the test  process  for every 
+element  of the  domain.  If each  instance 
+succeeds,  the program  is verified;  otherwise, 
+an  error  has been  found.  This testing 
+method  is known  as 
+exhaustive  testzng and 
+is  the  only  dynamic  analysis technique  that 
+will  guarantee  the  validity of a program. 
+Unfortunately,  this technique  is not  prac- 
+tical.  Frequently,  functional domains are 
+infinite,  or even  if finite,  sufficiently  large 
+to  make  the  number of required  test in- 
+stances  infeasible. 
+In  order  to reduce  this potentially  infinite 
+exhaustive  testing process  to a feasible  test- 
+ing  process,  we must  find criteria  for choos- 
+ing  representative  elements from the func- 
+tional  domain.  These criteria  may reflect 
+either  the functional  description  or the  pro- 
+gram  structure.  A number  of criteria,  both 
+scientific  and intuitive,  have been suggested 
+and  are discussed. 
+The  subset  of elements  chosen for use in 
+a  testing  process  is called  a 
+test data  set 
+(test  set 
+for short).  Thus the crux  of the 
+testing  problem  is to  find  an adequate  test 
+set,  one  large  enough  to span  the domain 
+and  yet small  enough  that the testing  proc- 
+ess  can  be performed  for each  element  in 
+the  set.  Goodenough  and Gerhart  [GooD75] 
+present  the  first formal  treatment  for de- 
+termining  when a criterion  for test  set se- 
+lection  is adequate.  In their  paper,  a crite- 
+rion  C is  said  to  be 
+reliable if the  test  sets 
+T~  and  T2 chosen  by C are  such  that all test 
+instances  of T~  are  successful  exactly when 
+all  test  instances  of T2  are  successful.  A 
+criterion  C is  said  to  be 
+valid if it  can 
+produce  test sets  that  uncover  all errors. 
+These  definitions  lead to the  fundamental 
+theorem  of testing,  which states: 
+If there  exmts a consistent,  reliable, vahd, and com- 
+plete  criterion  for test  set selection  for a program  P 
+and  if a test  set satmfymg  the criterion  is such  that 
+all  test  instances  succeed, then the program  P is 
+correct 
+Unfortunately,  it has  been  shown  that 
+there  is no  algorithm  to find  consistent, 
+Computing  Surveys,  Vol  14, No.  2, June  1982
+
+166 • W. R. Adrion, M. A. Branstad, 
+reliable, valid, and complete test criteria 
+\[HOWD76\]. This confirms the fact that test- 
+ing, especially complete testing, is a very 
+difficult process. As we shall see, there is no 
+one best way to generate test data or to 
+ensure best coverage, even heuristically. 
+Combinations of various techniques can in- 
+crease our confidence in the quality of the 
+software being tested. These combinations 
+depend heavily on the particular instance 
+of the problem. 
+Probably the most discouraging area of 
+research is that of testing theory, precisely 
+because results such as these abound, show- 
+ing that testing can never guarantee cor- 
+rectness. Many of the sophisticated tech- 
+niques that have been recently developed 
+are proving intractable in practical appli- 
+cations. At the same time, many of the 
+heuristics in practice, while often success- 
+fully used, do not have a solid theoretical 
+basis from which they can be generalized or 
+validated. Still the importance of the vali- 
+dation and verification process in software 
+development cannot be overstated. By us- 
+ing a variety of techniques and gaining a 
+thorough understanding of the implications 
+and limitations of these techniques, we can 
+increase our confidence in the quality of the 
+software. 
+
+2.2 General Techniques 
+
+Some techniques are used at many stages. 
+These include traditional informal methods 
+such as desk checking as well as disciplined 
+techniques such as structured walk- 
+throughs and inspections. Proof-of-correct- 
+ness research is now beginning to produce 
+practical and effective tools and techniques 
+that can be made part of each stage of 
+software development. Moreover, there are 
+other tools, such as simulation, that, al- 
+though not specific to testing, are highly 
+useful in the validation, verification, and 
+testing process. 
+2 2.1 Tradlbonal Manual Methods 
+Desk checking, going over a program by 
+hand while sitting at one's desk, is the most 
+traditional means for analyzing a program, 
+and forms the foundation for the more dis- 
+ciplined techniques of walk-throughs, in- 
+spections, and reviews. Requirements, de- 
+and J. C. Cherntavsky 
+sign specifications, and code must always 
+be hand analyzed as it is developed. To be 
+effective this analysis must be careful and 
+thorough. In most instances, this, as well as 
+all other desk checking, is used more as a 
+debugging technique than as a testing tech- 
+nique. Since seeing one's own errors is dif- 
+ficult, it is more effective if a second party 
+does the desk checking. For example, two 
+programmers trading listings and reading 
+each other's code is often more productive 
+than each reading his own. This approach 
+still lacks the group interaction and insight 
+present in formal walk-throughs, inspec- 
+tions, and reviews. 
+Another method of increasing the overall 
+quality of software production is peer re- 
+view, the reviewing of programmer's code 
+by other programmers \[MYER79\]. The 
+management can set up a panel that re- 
+views sample code on a regular basis for 
+efficiency, style, adherence to standards, 
+etc., and that provides feedback to the in- 
+dividual programmer. Project leaders or 
+chief programmers can maintain a note- 
+book that contains both required "fixes" 
+and revisions to the software and an index 
+indicating the original programmer or de- 
+signer. In a "chief programmer team" 
+\[BAKE72\] environment, the librarian can 
+collect data on programmer runs, error re- 
+ports, etc., and act as a review board or pass 
+the information on to a separate peer re- 
+view panel. 
+2 2 2 Walk-Throughs, Inspections, and 
+Reviews 
+Walk-throughs and inspections are formal 
+manual techniques that are a natural evo- 
+lution of desk checking. While both tech- 
+niques share a common philosophy and 
+similar organization, they are quite differ- 
+ent in execution. Furthermore, although 
+they evolved from the simple desk check 
+discipline of the single programmer, the 
+disciplined procedures of both are aimed at 
+removing the major responsibility for veri- 
+fication from the programmer. 
+Both walk-throughs and inspections re- 
+quire a team, usually directed by a moder- 
+ator and including the software developer. 
+The remaining three to six members and 
+the moderator should not be directly in- 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+Vahdatton,  Verification, and 
+volved in the  development  effort. Both 
+techniques  are based  on a reading  of the 
+product  (e.g., requirements,  specifications, 
+or  code)  in  a formal  meeting  environment 
+with  specific  rules for evaluation.  The dif- 
+ference  between  inspection  and walk- 
+through  lies in the  conduct  of the  meeting. 
+Inspection  involves a step-by-step  read- 
+ing  of the  product,  with each step  checked 
+against  a predetermined  list of criteria. 
+(These  criteria  include  checks for histori- 
+cally  common  errors, adherence  to pro- 
+gramming  standards,  and consistency  with 
+program  specifications.)  Guidance for de- 
+veloping  the test  criteria  can be found  in 
+MYER79,  FAGA76, and WEIN71.  Usually the 
+developer  narrates the  reading of the  prod- 
+uct  and  finds  many  errors  just by the  simple 
+review  act of reading  aloud. Others  errors, 
+of  course,  are determined  as a result  of the 
+discussion  with team  members  and by ap- 
+plying  the test  criteria. 
+Walk-throughs  differ from inspections  in 
+that  the programmer  does not narrate  a 
+reading  of the  product  by the  team.  A team 
+leader,  either the  developer or another  per- 
+son,  provides  test data  and leads  the team 
+through  a manual  simulation  of the  system. 
+The  test data  are walked  through  the sys- 
+tem,  with intermediate  results kept on a 
+blackboard  or paper.  The test data  should 
+be  kept  simple,  given the constraints  of 
+human  simulation.  The purpose  of the 
+walk-through  is to  encourage  discussion, 
+not  just  to complete  the system  simulation 
+on  the  test  data.  Most  errors  are discovered 
+by  questioning  the developer's  decisions at 
+various  stages, rather than by examining 
+the test  data. 
+At  the  problem  definition stage, either 
+walk-through  or inspection  can be used  to 
+determine  whether the requirements  satisfy 
+the  testability  and adequacy  measures of 
+this  stage  in development.  If formal  require- 
+ments  have  been developed,  formal meth- 
+ods,  such  as correctness  techniques,  may be 
+applied  to ensure  adherence  to the  quality 
+factors.  Walk-throughs  or inspections  should  be 
+performed  again at the  preliminary  and 
+detailed  design stages,  especially  in exam- 
+ining  the testability and  adequacy of mod- 
+ule  and  module  interface  designs. Any 
+changes  that result  from these  analyses  will 
+Testing of Computer Software •  167 
+cause  at least  a partial  repetition  of  the 
+verification  at  the problem  definition  and 
+earlier  design stages,  with an accompanying 
+reexamination  of the  consistency  between 
+stages.  Finally,  the walk-through  or inspection 
+procedures  should be performed  on the 
+code  produced  during the construction 
+stage.  Each module  should be analyzed 
+both  separately  and then  as an  integrated 
+part  of the  finished  software. 
+Design  reviews  and audits  are commonly 
+performed  as stages  in software  develop- 
+ment.  The Department  of Defense  has de- 
+veloped  a standard  audit and review  pro- 
+cedure  [MILS76]  based on hardware  pro- 
+curement  regulations.  The process  is rep- 
+resentative  of the  use  of formal  reviews  and 
+includes  several stages (detailed  in the  glos- 
+sary). 
+2  2.3  Proof-of-Correctness  Techmques 
+The  most  complete  static analysis  tech- 
+nique 
+is  proof  of correctness.  At an informal 
+level,  proof-of-correctness  techniques re- 
+duce  to the  sort  of step-by-step  reasoning 
+involved  in an  inspection  or a walk-through. 
+At  a more  formal  level, the machinery  of 
+mathematical  logic is brought  to bear  on 
+the  problem  of proving  that a program 
+meets  its specification. 
+Proof  techniques  as methods  of valida- 
+tion  have  been  used since  von Neumann's 
+time.  These  techniques  usually consist of 
+validating  the consistency  of an  output 
+"assertion"  (specification)  with respect  to 
+a  program  (or requirements  or design  spec- 
+ification)  and an input  assertion  (specifica- 
+tion).  In the  case  of programs,  the asser- 
+tions  are statements  about the program's 
+variables.  If it can  be shown  that executing 
+the  program  causes the output  assertion  to 
+be  true  for the  possibly  changed  values of 
+the  program's  variables whenever  the input 
+assertion  is true  for particular  values of 
+variables,  then the program  is "proved."  To 
+be  completely  sure that  a program  is cor- 
+rect,  the programmer  must also prove  that 
+the  program  terminates.  Normally, the is- 
+sue  of termination  is handled  separately. 
+There  are  two  approaches  to proof  of 
+correctness:  formal proof and informal 
+proof.  In order  to obtain  formal  proofs, a 
+Computing  Surveys, Vol 14, No.  2, June  1982
+
+168 • W. R. Adrion, M. A. Branstad, 
+mathematical logic must be developed with 
+which one can "talk" about programming 
+language objects and can express the notion 
+of computation. Two approaches have been 
+taken in designing such logics: (1) to employ 
+mathematical logic with a natural notion of 
+computation, essentially keeping the two 
+separate \[FLoY67\]; and (2) to tightly inte- 
+grate the computation aspects of program- 
+ming languages with the static, mathemat- 
+ical aspects of programming languages 
+\[CoNs78, PRAT77\]. Because of the compu- 
+tational power of most programming lan- 
+guages, the logic used to verify programs is 
+normally not decidable; that is, there is no 
+algorithm to determine the truth or falsity 
+of every statement in the logic. 
+Most recent research in applying proof 
+techniques to verification has concentrated 
+on programs. The techniques apply, how- 
+ever, equally well to any level of the devel- 
+opment life cycle where a formal represen- 
+tation or description exists. The GYPSY 
+\[AMBL78\] and HDM \[RoBI79, NEUM75\] 
+methodologies use proof techniques 
+throughout the development stages. For ex- 
+ample, HDM has as a goal the formal proof 
+of each level of development. Good sum- 
+maries of program proving and correctness 
+research are given in KING76 and APT81. 
+Since formal mathematical techniques 
+grow rapidly in complexity, heuristic pro- 
+cedures for proving programs formally are 
+essential. Unfortunately, these are not yet 
+well enough developed to allow the formal 
+verification of a large class of programs. In 
+the absence of efficient heuristics, some 
+approaches to verification require that the 
+programmer provide information interac- 
+tively to the verification system order to 
+complete the proof. Examples include AF- 
+FIRM \[GERH80\], the Stanford PASCAL 
+Verifier \[LUCK79\], and PL/CV \[CoNs78\]. 
+Such provided information may include 
+facts about the program's domain and op- 
+erators or facts about the program's in- 
+tended function. 
+Informal proof techniques follow the log- 
+ical reasoning behind the formal proof tech- 
+niques but without the formal details. Often 
+the less formal techniques are more palat- 
+able to the programmers because they are 
+intuitive and not burdened with mathemat- 
+ical formalism. The complexity of informal 
+and J. C. Cherniavsky 
+proof ranges from simple checks, such as 
+array bounds not being exceeded, to com- 
+plex logic chains showing noninterference 
+of processes accessing common data. Pro- 
+grammers are always using informal proof 
+techniques; if they make the techniques 
+explicit, it would require the same resource 
+investment as following a discipline such as 
+structured walk-through. 
+Notwithstanding the substantial re- 
+search efforts in developing useful proof-of- 
+correctness systems, there has been dispute 
+concerning the ultimate utility of auto- 
+mated correctness proving as a useful tool 
+of verification and validation \[DEMI79, 
+DI~K78\]. It is unlikely that this dispute will 
+be quickly settled, but it is likely that proof- 
+of-correctness techniques will continue to 
+play a role in the validation and verification 
+process. 
+
+2 2 4 Stmulatlon 
+
+Simulation is a broad term. In a sense any 
+validation technique that does not involve 
+actual execution "simulates" the execution 
+in some fashion. All of the techniques de- 
+scribed above thus use simulation by this 
+very broad definition. Even if we employ a 
+more narrow definition, that simulation is 
+the use of an executable model to represent 
+the behavior of an object, simulation, as we 
+shall show, is still a powerful tool for testing. 
+Simulation is most often employed in 
+real-time systems development where the 
+"real-world" interface is critical and inte- 
+gration with the system hardware is central 
+to the total design. There are, however, 
+many non-real-time applications in which 
+simulation is a cost-effective verification 
+and test data generation technique. 
+Several models must be developed to use 
+simulation as a verification tool. Verifica- 
+tion is performed by determining, with use 
+of simulation, whether the model of the 
+software behaves as expected on models of 
+the computational and external environ- 
+ments. 
+To construct a model of the software for 
+a particular stage in the development life 
+cycle, one must develop a formal represen- 
+tation of the product at that stage compat- 
+ible with the simulation system. This rep- 
+resentation may consist of the formal re- 
+Computing Surveys, Vol 14, No 2, June 1982
+
+Validation,  Verification, and 
+quirements specification,  the design  speci- 
+fication,  or the  actual  code, depending  on 
+the  stage,  or it may  be a separate  model of 
+the  program  behavior.  If a different  model 
+is  used,  then the developer  will need  to 
+demonstrate  and verify  that the model  is a 
+complete,  consistent,  and accurate  repre- 
+sentation  of the  software  at the  stage  of 
+development  being verified. 
+After  creating  the formal  model for the 
+software,  the developer  must construct  a 
+model  of the  computational  environment in 
+which  the system  will operate.  This model 
+will  include,  as components,  representa- 
+tions  of the  hardware  on which  the system 
+will  be implemented  and  of the  external 
+demands  on the  total  system.  This model 
+can  be largely  derived  from the require- 
+ments,  with statistical  representations  de- 
+veloped  for the  external  demand and the 
+environmental  interactions. 
+Simulating  the system  at the early devel- 
+opment  stages is the  only  means  of predict- 
+ing  the  system  behavior  in response  to the 
+eventual  implementation  environment. At 
+the  construction  stage, since the code  is 
+sometimes  developed on a host  machine 
+quite  different  from the target  machine,  the 
+code  may be run  on a simulation  of the 
+target  machine  under interpretative  con- 
+trol. 
+Simulation  also plays  a useful  role in 
+determining  the performance  of algorithms. 
+While  this is often  directed  at analyzing 
+competing  algorithms  for cost,  resource,  or 
+performance  trade-offs, the simulation  of 
+algorithms  on large  data sets also  provides 
+error  information. 
+2.3 Test  Data  Generation 
+Test  data  generation  is a critical  step in 
+testing.  Test  data  sets must  not only  con- 
+tain  input  to exercise  the software,  but must 
+also  provide  the corresponding  correct out- 
+put  responses  to the  test  data  inputs.  Thus 
+the  developing  of test  data  sets involves 
+two  aspects:  the selecting  of data  input  and 
+the  determining  of expected  response.  Of- 
+ten  the  second aspect is most  difficult,  be- 
+cause,  although  hand calculation  and sim- 
+ulation  can be used to  derive expected  out- 
+put  response,  such manual  techniques  be- 
+come  unsatisfactory  and  insufficient for 
+very  large  or complicated  systems. 
+Testing of Computer Software •  169 
+One  promising  direction is the  develop- 
+ment  of executable  specification  languages 
+and  specification  language analyzers 
+[SRS79,  TEIC77].  These can be used  to act 
+as  "oracles,"  providing the responses  for 
+the  test  data  sets. Some  analyzers  such as 
+the  REVS  system  [BELL77]  include a sim- 
+ulation  capability.  An executable  specifica- 
+tion  language  representation  of a software 
+system  is an  actual  implementation  of the 
+design,  but  at a higher  level than the final 
+code.  Usually  interpreted  rather than com- 
+piled,  it is  less  efficient,  omits certain  details 
+found  in the  final  implementation,  and is 
+constructed  with certain  information 
+"hidden."  This implementation  would be, 
+in  Parnas'  terms [PARN77],  an "abstract 
+program,"  representing  in less  detail  the 
+final  implementation.  The execution  of the 
+specification  language "program"  could be 
+on  a host  machine  quite different  from the 
+implementation target  machine. 
+Test  data  can be generated  randomly 
+with  specific  distributions  chosen  to pro- 
+vide  some  statistical  assurance  that the sys- 
+tem,  after  having  been fully tested,  is error 
+free.  This  is a method  often used in high- 
+density  large-scale  integrated (LSI) testing. 
+Unfortunately,  while errors  in LSI  chips 
+appear  correlated  and statistically  predict- 
+able,  this is not  true  of software.  Until re- 
+cently,  the domains  of programs  were far 
+more  intractable  than those  occurring  in 
+hardware.  This gap is closing  with the ad- 
+vances  in very  large-scale  integration 
+(VLSI). 
+Given  the apparent  difficulty of applying 
+statistical  tests to software,  test data  are 
+derived  in two  global  ways, often called 
+"black  box," or functional,  analysis and 
+"white  box," or structural,  analysis. In func- 
+tional  analysis,  the test  data  are derived 
+from  the external  specification  of the  soft- 
+ware  behavior  with no consideration  given 
+to  the  internal  organization,  logic, control, 
+or  data  flow.  One such  technique,  design- 
+based  functional  analysis [HowD80a],  in- 
+cludes  examination  and analysis  of data 
+structure  and control  flow requirements 
+and  specifications  throughout the hierar- 
+chical  decomposition  of the  system  during 
+the  design.  In a complementary  fashion, 
+tests  derived  from structural  analysis de- 
+pend  almost  completely  on the  internal  log- 
+Computing  Surveys, Vol. 14, No  2, June  1982
+
+a null matrix should be tested. Often the 
+single-element data structure is a good 
+choice. If numeric values are used in arith- 
+metic computations, then the test data 
+should include values that are numerically 
+very close and values that are numerically 
+quite different. Guessing carries no guar- 
+antee for success, but neither does it carry 
+any penalty. 
+
+2 4 2 Design-Based Functional Testing 
+
+The techniques described above derive test 
+data sets from analysis of functions speci- 
+fied in the requirements. Howden has ex- 
+tended functional analysis to functions used 
+in the design process \[HowD80a\]. A distinc- 
+tion can be made between requirements 
+functions and design functions. Require- 
+ments functions describe the overall func- 
+tional capabilities of a program, and cannot 
+usually be implemented without the devel- 
+oper first inventing other "smaller func- 
+tions" to design the program. If one thinks 
+of this relationship as a tree structure, then 
+a requirements function would be repre- 
+sented as a root node, and the "smaller 
+functions," all those functional capabilities 
+corresponding to design functions, would be 
+represented by boxes at the second level in 
+the tree. Implementing one design function 
+may require inventing still other design 
+functions. This successive refinement dur- 
+ing top-down design can then be repre- 
+sented as levels in the tree structure, 
+where the (n + 1)st-level nodes are refine- 
+ments or subfunctions of the nth-level 
+functions. 
+To utilize design-based functional test- 
+ing, the functional design trees as described 
+above should be constructed. The functions 
+included in the design trees must be chosen 
+carefully with the most important selection 
+criteria being that the function be accessi- 
+ble for independent testing. It must be pos- 
+sible to find a test data set that tests the 
+function, to derive the expected values for 
+the function, and to observe the actual out- 
+put computed by the code implementing 
+the function. 
+If top-down design techniques are fol- 
+lowed, each of the functions in the func- 
+tional design tree can be associated with 
+the final code used to implement that func- 
+tion. This code may consist of one or more 
+procedures, parts of a procedure, or state- 
+ments. Design-based functional testing re- 
+quires that the input and output variables 
+for each design function be completely 
+specified. Given these multiple functions to 
+analyze, test data generation can proceed 
+as described in the boundary value analysis 
+discussion above. Extremal, nonextremal, 
+and special-values test data should be se- 
+lected for each input variable. Test data 
+should also be selected to generate extre- 
+mal, nonextremal, and special-output 
+values. 
+
+2 4 3 Cause-Effect Graphing 
+
+Cause-effect graphing \[MYER79\] is a tech- 
+nique for developing test cases for programs 
+from the high-level specifications. For ex- 
+ample, a program that has specified re- 
+sponses to eight characteristic stimuli 
+{called causes) has potentially 256 "types" 
+of input {i.e., those with characteristics 1 
+and 3, those with characteristics 5, 7, and 8, 
+etc.). A naive approach to test case gener- 
+ation would be to try to generate all 256 
+types. A more sophisticated approach is to 
+use the program specifications to analyze 
+the program's effect on the various types of 
+inputs. 
+The program's output domain can be 
+partitioned into various classes called 
+"effects." For example, inputs with charac- 
+teristic 2 might be subsumed by (i.e., cause 
+the same effect as) those with characteris- 
+tics 3 and 4. Hence, it would not be neces- 
+sary to test inputs with just characteristic 
+2 and also inputs with characteristics 3 and 
+4. This analysis results in a partitioning of 
+the causes according to their corresponding 
+effects. 
+After this analysis, the programmer can 
+construct a limited-entry decision table 
+from the directed graph reflecting these 
+dependencies {i.e., causes 2 and 3 result in 
+effect 4; causes 2, 3, and 5 result in effect 6; 
+and so on), reduce the decision table in 
+complexity by applying standard tech- 
+niques \[METZ77\], and choose test cases to 
+exercise each column of the table. Since 
+many aspects of the cause-effect graphing 
+can be automated, it is an attractive tool 
+for aiding in the generation of functional 
+test cases. 
+
+Computing 
+Surveys, Vol. 14, No. 2, June 1982
+
+172 • 
+W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+
+2.5 Structural Testing Techniques 
+
+Unlike functional testing, which was con- 
+cerned with the function the program per- 
+formed and did not deal with how the func- 
+tion was implemented, structural testing is 
+concerned with testing its implementation. 
+Although used primarily during the coding 
+phase, structural testing should be used in 
+all phases of the life cycle where the soft- 
+ware is represented formally in some algo- 
+rithmic, design, or requirements language. 
+The intent of structural testing is to find 
+test data that will force sufficient coverage 
+of the structures present in the formal rep- 
+resentation. In order to determine whether 
+the coverage is sufficient, it is necessary to 
+have a structural coverage metric. Thus the 
+process of generating tests for structural 
+testing is sometimes known as 
+metric- based 
+test data generation. 
+
+Metric-based test data generation can be 
+divided into two categories by the metric 
+used: coverage-based testing and complex- 
+ity-based testing. In the first category, a 
+criterion is used that provides a measure of 
+the number of structural units of the soft- 
+ware which are fully exercised by the test 
+data sets. In the second category, tests are 
+derived in proportion to the software com- 
+plexity. 
+
+2.5.1 Coverage-Based Testing 
+
+Most coverage metrics are based on the 
+number of statements, branches, or paths 
+in the program that are exercised by the 
+test data. Such metrics can be used both to 
+evaluate the test data and to aid in the 
+generation of the test data. 
+Any program can be represented by a 
+graph. The nodes represent statements or 
+collections of sequential statements, and 
+the lines or edges represent the control 
+flow. A node with a single exiting edge to 
+another node represents a sequential code 
+segment. A node with multiple exiting 
+edges represents a branch predicate or a 
+code segment containing a branch predicate 
+as the last statement. 
+As an example of the representation of a 
+program by a graph, consider the bubble 
+sort program of Figure 3 (from an example 
+due to Pare77) and its associated program 
+graph shown in Figure 4. 
+
+1 SUBROUTINE BUBBLE 
+(A, N) 
+
+2 BEGIN 
+3 FOR I -- 2 STEPS 1 UNTIL N DO 4 BEGIN 
+5 IF 
+A(I) 
+GE 
+A(I - 
+l) THEN GOTO NEXT 
+6 J=I 
+
+7 LOOP: IF J LE 1 THEN GOTO NEXT 
+8 IF 
+A(J) 
+GE 
+A (J - 
+1) THEN GOTO NEXT 9 TEMP 
+= A(J) 
+10 
+A(J) = A(J - 
+1) 
+11 
+A(J- 
+I) = TEMP 12 
+J=J-i 
+
+13 GOTO LOOP 14 NEXT" NULL 15 END 
+16 END 
+
+Figure 
+3. A bubble sort program. (Adapted from PAI677, 
+IEEE Transactions on Software Engtneer- tng 
+SE-3, 6 (Nov. 1977), 387, with permission of the IEEE.) 
+
+On a particular set of data, a program 
+will execute along a particular 
+path, 
+where 
+certain 
+branches 
+are taken or not taken, 
+depending on the evaluation of branch 
+predicates. Any program path can be rep- 
+resented by a sequence, possibly with re- 
+peating subsequences (when the program 
+has backward branches), of edge names 
+from the program graph. These sequences 
+are called 
+path expressions. 
+Each path or 
+each data set may vary, depending on the 
+number of 
+loop iterations 
+executed. A pro- 
+gram with variable loop control may have 
+effectively an infinite number of paths, and 
+hence an infinite number of path expres- 
+sions. 
+To test the program structure com- 
+pletely, the test data chosen should ideally 
+cause the execution of all paths. But be- 
+cause some, possibly many, paths in a pro- 
+gram are not finite, they cannot be executed 
+under test conditions. Since complete cov- 
+erage is not possible in general, metrics 
+have been developed that give a measure of 
+the quality of test data based on its prox- 
+imity to this ideal coverage. Path coverage 
+determination is further complicated by the 
+existence of 
+infeasible paths, 
+that, owing to 
+inadvertent program design, are never exe- 
+cuted, no matter what data are used. Au- 
+tomatic determination of infeasible paths is 
+generally difficult if not impossible. A main 
+theme in structured top-down design 
+\[DIJK72, JACK75, YOUR79\] is to construct 
+modules that are simple and of low corn- 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+Validation, Verification, and Testing of Computer Software 
+• 173 
+
+/ 
+.® 
+
+Ftgure 4. 
+Control-flow graph for the program in Figure 3 (Adapted from PAI677, 
+IEEE Transactions on Software Engtneermg 
+SE-3, 6 (Nov. 1977), 389, with permission of the IEEE ) 
+Computing Surveys, Vol. 14, No 2, June 1982
+
+174 • W.R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+plexity so that all paths, excluding loop 
+iteration, may be tested and that infeasible 
+paths may be avoided. Of course, during 
+integration testing when simple modules 
+are combined into more complex modules, 
+paths will cross modules and infeasible 
+paths may again arise. The goal is to main- 
+tain simple structure at all levels of integra- 
+tion, therefore maximizing path coverage. 
+All techniques for determining coverage 
+metrics are based on graph requirements 
+of programs. A variety of metrics exist rang- 
+ing from simple-statement coverage to 
+full-path coverage. There have been sev- 
+eral attempts to classify these metrics 
+\[MILL77\]; however, new variations appear 
+so often that such attempts are not always 
+successful. We discuss the major ideas with- 
+out attempting to cover all the variations. 
+The simplest metric measures the per- 
+centage of statements executed by all the 
+test data. Since coverage tools collect data 
+about which statements have been exe- 
+cuted (as well as about the percentage of 
+coverage), results can guide the program- 
+mer in selecting test data to ensure com- 
+plete coverage. To apply the metric, the 
+programmer instruments the program or 
+module either by hand or by a preprocessor, 
+and then uses either a postprocessor or 
+manual analysis of the results to find the 
+level of statement coverage. Finding an ef- 
+ficient and complete test data set that sat- 
+isfies this metric is more difficult. Branch 
+predicates that send control to omitted 
+statements can, when examined, help de- 
+termine which input data will cause execu- 
+tion of those omitted statements. 
+Examination of the program's actions on 
+the test set, $1 = {A(1) = 5, A(2) = 3, 
+N = 2} (Figure 3), demonstrates that 100 
+percent statement coverage is reached. 
+This metric, however, is not strong enough. 
+A slight change in the example program 
+(replacing the greater or equal test by an 
+equality test) results in an incorrect pro- 
+gram and an error that the test set does not 
+uncover. 
+A slightly stronger metric measures the 
+percentage of segments executed under the 
+application of all test data. A segment in 
+this sense corresponds to a decision-to-de- 
+cision path (dd path) \[MILL77\]. It is a 
+portion of a program path beginning with 
+the execution of a branch predicate and 
+including all statements up to the evalua- 
+tion (but not execution) of the next branch 
+predicate. In the example of Figure 4, the 
+path including statements 8, 9, 10, 11, 12, 
+13 is a segment. Segment coverage clearly 
+guarantees statement coverage. It also cov- 
+ers branches with no executable state- 
+ments, as in the case in an IF-THEN- 
+ELSE with no ELSE statement; coverage 
+still requires data, causing the predicate to 
+be evaluated as both true and false, and 
+segment coverage guarantees that both 
+have been checked. Techniques similar to 
+those used for statement coverage are used 
+for applying the metric and deriving test 
+data. 
+Returning to the example program, the 
+test data set, $1, proposed earlier does not 
+cover the two segments with no executable 
+statements (segments beginning at nodes 5 
+and 8). The set 
+Se = ((A(1) = 5, A(2) = 3, A(3) = 3, N= 3}, 
+(,4(1) = 3, A(2)=5, N=2}} 
+yields 100 percent segment coverage, but 
+still does not uncover the error introduced 
+by replacing greater or equal by equal. 
+Often a loop construct is improperly 
+used. An improper termination may result 
+when the loop predicate is not initially sat- 
+isfied. Thus, the next logical step is to 
+strengthen the metric by requiring separate 
+coverage for both the exterior and interior 
+of loops. Since segment coverage only re- 
+quires that both branches from a branch 
+predicate be taken, the situation can arise 
+that test sets always execute the loop body 
+at least once (satisfies internal test) before 
+the exiting branch is traversed (external 
+test satisfied). To ensure that a test data 
+set contains data that requires the exiting 
+branch to be taken without executing the 
+loop body, segment coverage is strength- 
+ened so as to require that external tests be 
+performed without loop body execution. 
+This metric requires more paths to be cov- 
+ered than does segment coverage, whereas 
+segment coverage requires more paths to 
+be covered than does statement coverage. 
+In the example, adding (A(1) = 3, 
+N = 1} to the test data set $2 gives a test 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+Vahdatton, Verification, and 
+
+set, $3, that forces execution of both the 
+interior and exterior of the FOR loop. The 
+single element array ensures that the loop 
+controlling predicate is tested without exe- 
+cution of the loop body. 
+Variations on the loop and segment met- 
+ric include requiring at least k interior it- 
+erations per loop or requiring that all 2 n 
+combinations of Boolean variables be ap- 
+plied for each n-variable predicate expres- 
+sion. The latter variation has led to a new 
+path-testing technique called 
+finite-domain 
+testing 
+\[WHIT78\]. 
+
+Automated tools for instrumenting and 
+analyzing the code have been available for 
+a few years \[MILL75, OSTE76, LYON74, 
+RAMA74, MAIT80\]. These tools are gener- 
+ally applicable to most of the coverage met- 
+rics described above. Automating test data 
+generation, however, is less advanced. Of- 
+ten test data are generated by iteratively 
+using analyzers, and then applying manual 
+methods for deriving tests. A promising but 
+expensive way to generate test data for path 
+testing is through the use of symbolic 
+executors \[BOYE75, KING76, CLAR77, 
+HOWD77\]. The use of these tools is dis- 
+cussed further in Section 2.7. Even though 
+any particular structural metric may be 
+satisfied, there is still no guarantee that 
+software is correct. As discussed in Section 
+2.1, the only method of ensuring that the 
+testing is complete is to test the program 
+exhaustively. None of the above coverage 
+metrics, nor any proposed coverage metrics, 
+guarantees exhaustive testing. The choice 
+of which coverage metric to use must be 
+guided by the resources available for test- 
+ing. A coverage metric that forces more 
+paths to be tested in order to achieve the 
+same coverage as a simplier metric is more 
+expensive to use because more test cases 
+must be generated. The last few errors un- 
+covered can cost several orders of magni- 
+tude more than the first error uncovered. 
+2.5.2 Complexity-Based Testing 
+Several complexity-based metrics have 
+been proposed recently. Among these are 
+cyclomatic complexity \[McCA76\], Hal- 
+stead's metrics \[HAas77\], and Chapin's 
+software complexity measure \[CHAP79\]. 
+These and many other metrics are designed 
+
+Testing of Computer Software 
+• 175 
+to analyze the complexity of software sys- 
+tems. Although these metrics are valuable 
+new approaches to the analysis of software, 
+most are unsuited, or have not been applied 
+to the problem of testing. The McCabe 
+metrics are the exception. 
+McCabe actually proposed three metrics: 
+
+cyclomatic, essential, 
+and 
+actual complex- 
+ity. 
+All three are based on a graphical rep- 
+resentation of the program being tested. 
+The first two metrics are calculated from 
+the program graph, while the third metric 
+is calculated at run time. 
+McCabe defines cyclomatic complexity 
+by finding the graph theoretic "basis set." 
+In graph theory, there are sets of linearly 
+independent program paths through any 
+program graph. A maximal set of these 
+linearly independent paths, called a "basis 
+set," can always be found. Intuitively, since 
+the program graph and any path through 
+the graph can be constructed from the basis 
+set, the size of this basis set should be 
+related to the program complexity. From 
+graph theory, the cyclomatic number of the 
+graph, V(G), is given by 
+V(G} -- e- n +p 
+for a graph G with number of nodes n, edges 
+e, and connected components p. The num- 
+ber of linearly independent program paths 
+though a program graph is V(G) + p, a 
+number McCabe calls the cyclomatic com- 
+plexity of the program. Cyclomatic com- 
+plexity, CV(G), where 
+CV(G) = e- n + 2p, 
+can then be calculated from the program 
+graph. In the graph of Figure 4, e = 19, 
+v = 16, and p = 1. Thus V(G) = 4 and 
+CV(G) = 5. 
+A proper subgraph of a graph G is a 
+collection of nodes and edges such that, if 
+an edge is included in the subgraph, then 
+both nodes it connects in the complete 
+graph G must also be in the subgraph. Any 
+flow graph can be reduced by combining 
+sequential single-entry, single-exit nodes 
+into a single node. Structured constructs 
+appear in a program graph as proper 
+subgraphs with only one single-entry node 
+whose entering edges are not in the 
+subgraph, and with only one single-exit 
+
+Computing Surveys, Vol. 14, No 2, June 1982
+
+176 • W.R. Adrton, M. A. Branstad, and J. C. Cherntavsky 
+node, whose exiting edges are also not in- 
+cluded in the subgraph. For all other nodes, 
+all connecting edges are included in the 
+subgraph. This single-entry, single-exit 
+subgraph can then be reduced to a single 
+node. 
+Essential complexity is a measure of the 
+"unstructuredness" of a program. The de- 
+gree of essential complexity depends on the 
+number of these single-entry, single-exit 
+proper subgraphs containing two or more 
+nodes. There are many ways in which to 
+form these subgraphs. For a straight-line 
+graph (no loops and no branches), it is 
+possible to collect the nodes and edges to 
+form from 1 to v/2 (v = number of nodes) 
+single-entry, single-exit subgraphs. Hecht 
+and Ullman \[HEcH72\] have a simple algo- 
+rithm that is guaranteed to find the mini- 
+mum number of such subgraphs in a graph. 
+Figure 5 is an example of a program graph 
+with single-entry, single-exit proper sub- 
+graphs identified from Hecht and Ullman's 
+algorithm. The nodes in the four proper 
+subgraphs are (1, 2}, {3, 4, 5, 6, 16}, (7, 8, 
+9, 10, 11, 12, 13}, and (14, 15). 
+Let m be the minimum number calcu- 
+lated from Hecht and Ullman's algorithm. 
+The essential complexity EV(G) is defined 
+
+as 
+
+EV(G) = CV(G) - m. 
+The program graph for a program built 
+with structured constructs will generally be 
+decomposable into subgraphs that are sin- 
+gle entry, single exit. The minimum number 
+of such proper subgraphs (calculated 
+from Hecht and Ullman's algorithm) is 
+CV(G) - 1. Hence, the essential complexity 
+of a structured program is 1. The program 
+of Figure 3 has essential complexity of 1 
+indicating that the program is structured. 
+Actual complexity, AV, is the number of 
+independent paths actually executed by a 
+program running on a test data set. AV is 
+always less than or equal to the cyclomatic 
+complexity and is similar to a path coverage 
+metric. A testing strategy would be to at- 
+tempt to drive AV closer to CV(G) by find- 
+ing test data which cover more paths or by 
+eliminating decision nodes and reducing 
+portions of the program to in-line code. 
+There exist tools \[MAIT80\] to calculate all 
+three McCabe metrics. 
+
+2.6 Test Data Analysis 
+
+After the construction of a test data set, it 
+is necessary to determine the "goodness" of 
+that set. Simple metrics like statement cov- 
+erage may be required to be as high as 90- 
+95 percent. It is much more difficult to find 
+test data providing 90 percent coverage un- 
+der the more complex coverage metrics. 
+However, it has been noted \[BRow73\] that 
+methods based on the more complex met- 
+rics with lower coverage requirements have 
+uncovered as many as 90 percent of all 
+program faults. 
+2.6.1 Stat~sbcal Analyses and Error 
+Seeding 
+The most common type of test data analy- 
+sis is statistical. An estimate of the number 
+of errors in a program can be obtained by 
+analyzing of errors uncovered by the test 
+data. In fact, as we shall see, this leads to a 
+dynamic testing technique. 
+Let us assume that there are some num- 
+ber of errors E in the software being tested. 
+We would like to two things: a maximum 
+likelihood estimate for the number of errors 
+and a level-of-confidence measure on that 
+estimate. Mills developed a technique 
+\[MILL72\] to "seed" known errors into the 
+code so that their placement is statistically 
+similar to that of actual errors. The test 
+data are then applied, and the number of 
+known seeded errors and the number of 
+original errors uncovered is determined. If 
+one assumes that the statistical properties 
+of the seeded and unseeded errors are the 
+same (i.e., that both kinds of errors are 
+equally findable) and that the testing and 
+seeding are statistically unbiased, then the 
+maximum-likelihood estimator for E is 
+given by 
+estimate E = IS/K 
+where S is the number of seeded errors, K 
+is the number of discovered seeded errors, 
+and I is the number of discovered unseeded 
+errors. This estimate obviously assumes 
+that the proportion of undetected errors is 
+very likely to be the same for the seeded 
+and original errors. This assumption is open 
+to criticism \[SCHI78\] since many errors left 
+after the debugging stage are very subtle, 
+deep logical errors \[DEMI78\], which are not 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+/ i~ ~-~- ..... ---. 
+
+I~. "-~ZI I I / I 
+
+IL I I/ / 
+
+il ~ "',-.~/1 \] I/ / 
+
+i,"--~' ~),," / /' J/ / 
+
+/~---7---~/ / / // 
+
+J 
+f 
+Fugure 5. Example from Figure 4 with subgraphs identified. 
+Computing Surveys, Vol. 14, No 2, June 1982
+
+178 
+• W.R. Adrmn, M. A. Branstad, and J. C. Cherniavsky 
+
+statistically independent and are likely to 
+be quite different from the seeded errors. 
+Mills developed confidence levels for his 
+techniques, which are revised and discussed 
+in TAUS77. A further and perhaps more 
+complete examination of confidence levels 
+is described in DURA81a. A strategy for 
+using this statistical technique in dynamic 
+testing is to monitor the maximum like- 
+lihood estimator, and to perform the confi- 
+dence-level calculation as testing prog- 
+resses. If the estimator becomes high rela- 
+tive to the number of seeded errors, then it 
+is unlikely that a desirable confidence level 
+can be obtained. The seeded errors should 
+be removed and the testing resumed. If the 
+number of real errors discovered remains 
+small (ideally, remains zero) as the number 
+of seeded errors uncovered approaches the 
+total number seeded, then our confidence 
+level increases. 
+Schick and Wolverton \[Scm78\] and oth- 
+ers have described a technique of using two 
+people to test the software, using one per- 
+son's discovered errors as the "seeded" er- 
+rors and then applying the estimator to the 
+second person's results. But it is difficult to 
+make the two people's testing procedures 
+sufficiently different so that the overlap in 
+their uncovered errors is small; as the over- 
+lap increases, confidence of the estimation 
+must decrease. 
+Tausworthe \[TAus77\] discusses a 
+method for seeding errors that has some 
+hope of imitating the distribution of the 
+actual errors. He suggests randomly choos- 
+ing lines at which to insert the error, and 
+then making various different modifications 
+to the code, introducing errors. The modi- 
+fications of the code are similar to those 
+used in mutation testing as described be- 
+low. Duran and Wiorkowski \[Dul~A81a\] 
+suggest using errors detected during prelim- 
+inary testing as seed errors for this tech- 
+nique. In either case, again, success depends 
+on the detected errors having the same 
+probability of detection as the undiscovered 
+errors, which is not likely. 
+
+2 6 2 Mutabon Analysis 
+
+A new method of determining the adequacy 
+of test data sets has been developed by 
+DeMillo, Lipton, and Sayward and is called 
+mutation analysis \[DEMI78\]. As above, the 
+
+Computing Surveys, Vol 14, No 2, June 1982 
+
+program that is to be tested is seeded with 
+errors. Several mutants of the original pro- 
+gram are generated. Each is created by 
+introducing different errors or sets of errors 
+into the original program. The program and 
+its mutants are then run interpretively on 
+the test set. 
+The set of mutants must be held to a 
+manageable size. First, consider the 
+"competent programmer assumption," 
+stating that an incorrect program will not 
+differ much from the desired program. That 
+is, a competent programmer will not make 
+a massive number of errors when writing a 
+program. Second, consider the "coupling 
+effect," the conjecture that tests that un- 
+cover simple errors will also uncover deeper 
+and more complex errors. 
+These two assumptions greatly simplify 
+the construction of program mutations. To 
+determine the adequacy of test sets, we 
+introduce a mutation score ms(P, T) de- 
+fined as 
+ms(P, T) = ',DM(P, T),/L M(P) - E(P)I, 
+where P is a program, T is a test set, M(P) 
+is some finite set of mutant programs of the 
+language, E(P) is the set of functionally 
+equivalent programs to P in M(P), and 
+DM(P, T) is the set of programs in M(P) 
+differentiated from P by the test set T. If 
+the construction of mutants is correctly 
+chosen (i.e., the finite set of program mu- 
+tations is appropriately constructed), then 
+as the mutation score, ms(P, T), ap- 
+proaches 1, the adequacy of the test set T 
+increases (and T uncovers more errors). 
+The construction of the set of mutations 
+is crucial to the success of the technique. 
+The mutant set is obtained from P by mod- 
+ifying single statements of the program in 
+order to reflect probable errors. Since each 
+element of the finite set of program muta- 
+tions differs from P in only one statement 
+and since variable names may be changed 
+in order to construct elements of the set of 
+mutations, the size of M(P) is bounded by 
+a quadratic function of the length of P. 
+The mutation analysis method of deter- 
+mining the adequacy of test sets includes 
+both branch coverage and statement cov- 
+erage metrics as special cases. Over the last 
+two years, the method has been run on a 
+number of FORTRAN and COBOL pro- 
+grams ranging from a few lines in length to
+
+production programs of 1700 lines in length. 
+Test sets with mutation scores of 0.95 or 
+higher were experimentally shown to be 
+adequate in that additional errors were not 
+discovered with subsequent use of the pro- 
+grams \[ACRE80\]. 
+It must be stressed that mutation analy- 
+sis rests on two assumptions: that the pro- 
+gram is "nearly correct" (a consequence of 
+the competent programmer hypothesis) 
+and that test sets which uncover single 
+errors are also effective in uncovering mul- 
+tiple errors (the coupling effect hypothesis). 
+Both of these assumptions have been ex- 
+perimentally validated over a fairly large 
+range of programs \[ACRE80\]. 
+Recently Howden \[HOwD81a\] developed 
+a new test completeness metric that is 
+stronger than branch coverage, but weaker 
+than mutant coverage. Derived from the 
+ideas on design-based functional testing, 
+the metric depends either on coverage of 
+functions computed by a program, 
+parts 
+of 
+the program, or by 
+parts 
+of statements in 
+the program. This method is less costly 
+than mutation analysis, but much more 
+effective than branch coverage. 
+
+2.7 Static Analysis Techniques 
+
+As we stated at the outset, analytical tech- 
+niques can be categorized as dynamic or 
+static. Dynamic activity, such as the appli- 
+cation and analysis of test data, usually 
+involves the actual execution of code, 
+whereas static analysis usually does not. 
+Many of the general techniques discussed 
+above, such as formal proof techniques and 
+inspections, are static analysis techniques. 
+Static analysis is part of any testing tech- 
+nique, since it must be used in analysis that 
+derives test data, calculates assertions, or 
+determines instrumentation breakpoints. 
+But the actual verification must be 
+achieved through dynamic testing. The line 
+between static and dynamic analysis is not 
+always easily drawn. For example, proof-of- 
+correctness techniques and symbolic exe- 
+cution both "execute" code, but usually not 
+in a real environment. 
+Most static analysis is performed by par- 
+sers and associated translators residing in 
+compilers. Depending upon the sophistica- 
+tion of the parser, it uncovers errors ranging 
+in complexity from ill-formed arithmetic 
+expressions to complex type-incompatibili- 
+ties. In most compilers, the parser and 
+translator are augmented with additional 
+capabilities that allow activities useful for 
+producing quality software, such as code 
+optimization, listing of variable names, and 
+pretty printing. Preprocessors are also fre- 
+quently used in conjunction with the par- 
+ser. These may perform activities such as 
+allowing "structured programming" in an 
+unstructured programming language, 
+checking for errors such as mismatched 
+common areas, and checking for module 
+interface incompatibilities. The parser may 
+also serve in a policing role. Thus, by using 
+static analysis the parser can enforce cod- 
+ing standards, monitor quality of code, 
+and check adherence to programming 
+standards (standards such as FORTRAN77 
+\[ANSI78\]. 
+
+2 7 1 Flow Analysts 
+
+Data-flow and control-flow analysis are 
+similar in many ways. Both are based upon 
+graphical representation. In control-flow 
+analysis, the program graph has nodes, rep- 
+resenting a statement or segment, that pos- 
+sibly end in a branch predicate. The edges 
+represent the allowed flow of control from 
+one segment to another. The control-flow 
+graph is used to analyze the program be- 
+havior, to locate instrumentation break- 
+points, to identify paths, and to perform 
+static analysis activities. In data-flow anal- 
+ysis, graph nodes usually represent single 
+statements, while the edges still represent 
+the flow of control. Nodes are analyzed to 
+determine the transformations made on 
+program variables. Data-flow analysis is 
+used to discover program anomalies such 
+as undefined or unreferenced variables. 
+Data-flow analysis was used by Cocke and 
+Allen \[ALLE74, ALLE76\] to do global pro- 
+gram optimization. 
+Data-flow anomalies are more easily 
+found than resolved. Consider the following 
+FORTRAN code segment: 
+SUBROUTINE HYP (A, B, C) U = 0.5 W = 1/V Y=A**W Y=E**W Z=X+Y C = Z ** (V) 
+Computing Surveys, Vol 14, No. 2, June 1982
+
+180 • W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+There are several anomalies in this code 
+segment. One variable, U, is defined and 
+never used, while three variables, X, V, and 
+E, are undefined when used. The problem 
+is not in detecting these errors, but in re- 
+solving them. It is possible, for instance, 
+that U was meant to be V, E was meant to 
+be B, and the first occurrence of Y on the 
+left of an assignment was a typo for X. 
+There is no answer to the problem of reso- 
+lution, but data-flow analysis can help to 
+detect the anomalies, including ones more 
+subtle than those above. 
+In data-flow analysis, we are interested 
+in tracing the behavior of program variables 
+as they are initialized and modified during 
+the program execution. This behavior can 
+be classified according to when a particular 
+variable is referenced, defined, or unrefer- 
+enced in the program. A variable is refer- 
+enced when its value is obtained from mem- 
+ory during the evaluation of an expression 
+in a statement. For example, a variable is 
+referenced when it appears on the right- 
+hand side of an assignment statement, or 
+when it appears as an array index anywhere 
+in a statement. A variable is defined if a 
+new value for that variable results from the 
+execution of a statement, as occurs when a 
+variable appears on the left-hand side of an 
+assignment. A variable becomes unrefer- 
+enced when its value is no longer determin- 
+able from the program flow. Examples of 
+unreferenced variables are local variables 
+in a subroutine after exit and FORTRAN 
+DO indices on loop exit. 
+Data-flow analysis is performed, at each 
+node in the data flow graph, by associating 
+values for tokens (the latter representing 
+program variables) that indicate whether 
+the corresponding variable is referenced, 
+unreferenced, or defined with the execution 
+of the statement represented by that node. 
+If, for instance, the symbols, u, d, r, and l 
+(for null), are used to represent the values 
+of a token, then path expressions for a 
+variable (or token) can be generated begin- 
+ning at, ending in, or for some particular 
+node, yielding, for example, the typical path 
+expression drlUllrrllllldllrll. This expression 
+can then be reduced, by eliminating nulls, 
+to drrrdru. Such a path expression contains 
+no anomalies, but the presence of a double 
+nonnull value in an expression, such as 
+
+•..dd 
+.... indicates a variable defined twice 
+without being referenced, and does identify 
+a potential anomaly. Most anomalies, such 
+as unreferenced followed by referenced or 
+referenced without being defined, can be 
+discovered through analysis of the path 
+expressions. 
+To simplify the analysis of the flow 
+graph, statements can be combined, as in 
+control-flow analysis, into segments of nec- 
+essarily sequential statements represented 
+by a single node. Often, however, state- 
+ments must be represented by more than 
+one node. Consider the expression, 
+IF (X.GT.1) X = X - 1 
+The variable X is certainly referenced in 
+the statement, but it will be defined only if 
+the predicate is true. In such a case, the 
+representation would use two nodes, and 
+the graph would actually represent the 
+code: 
+IF (X.GT.1) loo, 200 
+100X= X- 1 2OO CONTINUE 
+Another problem requiring node splitting 
+arises at the last statement of a FORTRAN 
+DO loop, in which case the index variable 
+will become undefined if the loop is exited. 
+The problems introduced by subroutine 
+and function calls can also be resolved using 
+data-flow analysis. Osterweil \[OSTE76\] 
+and Fosdick \[FOSD76\] describe the use of 
+data-flow analysis for static analysis and 
+testing. 
+
+2 7.2 Symbohc Execution 
+
+Symbolic execution is a method of symbol- 
+ically defining data that forces program 
+paths to be executed. Instead of executing 
+the program with actual data values, the 
+variable names that hold the input values 
+are used as input values• 
+All branches are taken during a symbolic 
+execution, and the effect of assignments 
+during a symbolic execution is to replace 
+the value of the left-hand side variable by 
+the unevaluated expression on the right- 
+hand side. Sometimes symbolic execution 
+is combined with actual execution in order 
+to simplify the terms being collected in 
+variables. Most often, however, all variable 
+
+Computing Surveys, Vo\] 14, No. 2, June 1982
+
+manipulations and decisions are made sym- 
+bolically. As a consequence, all assignments 
+become string assignments and all decision 
+points are indeterminate. To illustrate a 
+symbolic execution, consider the following 
+small pseudocode program: 
+IN a, b; a := a * a; 
+
+x:=a+b; 
+IFx=0 THENx:=0 
+ELSE x := 1; 
+The symbolic execution of the program will 
+result in the following expression: 
+ifa * a + b = 0 then x :- 0 else ifa*a+b#Othenx:=l 
+Note that we are unable to determine the 
+result of the equality test for we only have 
+symbolic values available. 
+The result of a symbolic execution is a 
+large, complex expression that can be de- 
+composed and viewed as a tree structure, 
+where each leaf represents a path through 
+the program. The symbolic values of each 
+variable are known at every point within 
+the tree and the branch points of the tree 
+represent the decision points of the pro- 
+gram. Every program path is represented 
+in the tree, and every branch path is, by 
+definition, taken. 
+If the program has no loops, then the 
+resultant tree structure is finite, and can be 
+used as an aid in generating test data that 
+will cause every path in the program to be 
+executed. The predicates at each branch 
+point of the tree structure, for a particular 
+path, are then collected into a single logical 
+expression. Data that cause a particular 
+path to be executed can be found by deter- 
+mining which data will make the path 
+expression true. If the predicates are equal- 
+ities, inequalities, and orderings, the prob- 
+lem of data selection becomes the classic 
+problem of trying to solve a system of equal- 
+ities and orderings. For more detail, see 
+CLAR77 or HowD77. 
+There are two major difficulties with us- 
+ing symbolic execution as a test set con- 
+struction mechanism. The first is the com- 
+binatorial explosion inherent in the tree 
+structure construction: the number of paths 
+
+Testing of Computer Software • 
+181 
+in the symbolic execution tree structure 
+may grow as an exponential in the length 
+of the program, leading to serious compu- 
+tational difficulties. If the program has 
+loops, then the symbolic execution tree 
+structure is necessarily infinite (since every 
+predicate branch is taken). ~sually only a 
+finite number of loop executions is required, 
+enabling a finite loop unwinding to be per- 
+formed. The second difficulty is that the 
+problem of determining whether the path 
+expression has values that satisfy it is un- 
+decidable even with restricted program- 
+ming languages \[CHER79a\]. For certain ap- 
+plications, however, symbolic execution has 
+been successful in constructing test sets. 
+Another use of symbolic execution tech- 
+niques is in the construction of verification 
+conditions from partially annotated pro- 
+grams. Typically, the program has attached 
+to each of its loops an assertion, called an 
+"invariant," that is true at both the first 
+and the last statement of the loop. (Thus 
+the assertion remains "invariant" over one 
+execution of the loop.) From this assertion, 
+the programmer can construct an assertion 
+that is true before entrance to the loop and 
+an assertion that is true after exit of the 
+loop. Such a program can then be viewed 
+as free of loops (since each loop is consid- 
+ered as a single statement) and assertions 
+can be extended to all statements of the 
+program (so it is fully annotated) using 
+techniques similar to those for symbolic 
+execution. A good survey of these methods 
+has been done by Hantler \[HANT76\], and 
+an example of their use in verifiers appears 
+in Luckham \[LucK79\]. 
+
+2.7.3 Dynamic Analysis Techniques 
+
+Dynamic analysis is usually a three-step 
+procedure involving static analysis and in- 
+strumentation of a program, execution of 
+the instrumented program, and finally, 
+analysis of the instrumentation data. Often 
+this is accomplished interactively through 
+automated tools. 
+The simplest instrumentation technique 
+for dynamic analysis is the insertion of a 
+counter or "turnstile." Branch and segment 
+coverage are determined in this manner. A 
+preprocessor analyzes the program (usually 
+by internally representing the program as 
+
+Computmg Surveys, 
+VoL 14, No. 2, June 1982
+
+182 • W.R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+a program graph) and inserts counters at 
+appropriate places. 
+For example, for IF statements, control 
+will be directed, first, to a distinct statement 
+responsible for incrementing a counter for 
+each possible branch, and, second, back to 
+the original statement. Two separate 
+counters are dmployed when two IF state- 
+ments branch to the same point. Loop con- 
+structs often have to be modified so that 
+both interior and exterior paths can be in- 
+strumented. For example, the exterior path 
+of a loop usually has no executable state- 
+ments. To insert a counter, the loop con- 
+struct must be modified, as below: 
+DO 20 1 = J, K, L 
+20 Statement k 
+IF (I.GT.K) THEN 201 20 N(20) = N(20) + 1 
+Statement k 
+I=I+L IF (I.LE.K) THEN 20 
+201 N(201) = N(201) + 1 
+N(201) counts the exterior executions and 
+N(20) counts the interior executions. 
+Simple statement coverage requires 
+much less instrumentation than does either 
+branch coverage or more extensive metrics. 
+For complicated assignments and loop and 
+branch predicates, more detailed instru- 
+mentation is employed. Besides simple 
+counts, it is useful to know the maximum 
+and minimum values of variables (particu- 
+larly useful for array subscripts), the initial 
+and final value, and other constraints par- 
+ticular to the application. 
+Instrumentation does not have to rely on 
+direct code insertion. A simple alternate 
+implementation is to insert calls to run-time 
+routines in place of actual counters. The 
+developer can insert commands in the code 
+which is then passed through a preproces- 
+sor/compiler. The preprocessor adds the 
+instrumentation only if the correct com- 
+mands are set to enable it. 
+Stucki introduced the concept of instru- 
+menting a program with dynamic asser- 
+tions. A preprocessor generates instrumen- 
+tation for dynamically checking conditions 
+that are often as complicated as those used 
+in program-proof techniques \[Svuc77\]. 
+These assertions are entered as comments 
+in program code and are meant to be per- 
+manent. They provide both documentation 
+and means for maintenance testing. All or 
+individual assertions are enabled during 
+test by using simple commands to the pre- 
+processor. 
+There are assertions which can be em- 
+ployed globally, regionally, locally, or at 
+entry and exit. The general form for a local 
+assertion is 
+ASSERT LOCAL \[optional qualifier\] (extended-logical-expression) \[control\] 
+The optional qualifiers are adjectives such 
+as ALL and SOME. The control options 
+include (1) LEVEL, which controls the 
+levels in a block-structured program; (2) 
+CONDITIONS, which allows dynamic en- 
+abling of the instrumentation; and (3) 
+LIMIT, which allows a specific number of 
+violations to occur. The logical expression 
+is used to represent an expected condition, 
+which is then dynamically verified. For ex- 
+ample, placing 
+ASSERT LOCAL (A(2 : 6, 2 : 10).NE.0) LIMIT 4 
+within a program will cause the values of 
+array elements A(2, 2), A(2, 3) .... , A(2, 10), 
+A(3, 2),..., A(6, 10) to be checked against 
+a zero value at each locality. After four 
+violations during the execution of the pro- 
+gram, the assertion will become false. 
+The global, regional, and entry-exit as- 
+sertions are similar in structure to the local 
+assertions described earlier. Note the simi- 
+larity with proof-of-correctness techniques. 
+These assertions are very much like the 
+input, output, and intermediate assertions 
+used in program proving (called verification 
+conditions), especially if the entry-exit as- 
+sertions are employed. Furthermore, sym- 
+bolic execution can be used, just as it was 
+with proof techniques, to generate the as- 
+sertions. Some efforts are currently under 
+way to integrate dynamic assertions, proof 
+techniques, and symbolic evaluation. One 
+of these is described below. 
+Andrews and Benson have described a 
+system developed by General Research 
+\[ANDR81\] that employs dynamic assertion 
+
+Computing Surveys, Vol 14, No 2, June 1982
+
+techniques in an automated test system. 
+Code with embedded executable assertions 
+can be tested using constrained optimiza- 
+tion search strategies to vary an initial test 
+data set over a range of test inputs, adapt- 
+ing the test data to the test results. The 
+automated test system records the dynamic 
+assertion evaluation for a large number of 
+tests. 
+There are many other techniques for dy- 
+namic analysis. Most involve the dynamic 
+{while under execution) measurement of 
+the behavior of a part of a program, where 
+the features of interest have been isolated 
+and instrumented based on a static analy- 
+sis. Some typical techniques include expres- 
+sion analysis, flow analysis, and timing 
+analysis. 
+
+2.8 Combined Methods 
+
+There are many ways in which the tech- 
+niques described above can be used in con- 
+cert to form a more powerful and efficient 
+testing technique. One of the more common 
+combinations today merges standard test- 
+ing techniques with formal verification. Our 
+ability, through formal methods, to verify 
+significant segments of code is improving 
+\[GERH78\], and certain modules, either for 
+security or reliability reasons, now justify 
+the additional expense of formal verifica- 
+tion. 
+Other possibilities for combination in- 
+clude using symbolic execution or formal 
+proof techniques to verify those segments 
+of code that, through coverage analysis, 
+have been shown to be most frequently 
+executed. Mutation analysis, for some spe- 
+cial cases like decision tables, can be used 
+to verify programs fully \[BUDD78b\]. Formal 
+proof techniques may be useful in one of 
+the problem areas of mutation analysis, the 
+determination of equivalent mutants. 
+Another example, combining data-flow 
+analysis, symbolic execution, elementary 
+theorem proving, dynamic assertions, and 
+standard testing is suggested by Osterweil 
+
+\[OSTE80\]. 
+Osterweil addresses the issue of 
+how to combine efficiently these powerful 
+techniques in one systematic method. As 
+has been mentioned, symbolic evaluation 
+can be used to generate dynamic assertions 
+by first executing paths symbolically so that 
+Testing of Computer Software * 183 
+each decision point and every loop has an 
+assertion, then checking for consistency us- 
+ing both data-flow and proof techniques. If 
+all the assertions along a path are consist- 
+ent, they can be reduced to a single dynamic 
+assertion for the path. Either theorem- 
+proving techniques can be used to "prove" 
+the path assertion and termination, or dy- 
+namic testing methods can be used to test 
+and evaluate the dynamic assertions for the 
+test data. 
+Osterweil's technique allows for several 
+trade-offs between testing and formal 
+methods. For instance, symbolically de- 
+rived dynamic assertions, although more 
+reliable than manually derived assertions, 
+cost more to generate. Consistency analysis 
+of the assertions using proof and data-flow 
+techniques adds cost to development, but 
+reduces the number of repeated executions. 
+Finally there is the overall trade-off be- 
+tween theorem proving and testing to verify 
+the dynamic assertions. 
+
+3. CONCLUSIONS AND RESEARCH 
+DIRECTIONS 
+We have surveyed many of the techniques 
+used to validate software systems. Of the 
+
+methods discussed, the most successful 
+have been the disciplined manual tech- 
+niques, such as walk-throughs, reviews, and 
+inspections, applied to all stages in the life 
+cycle \[FAGA76\]. Discovery of errors within 
+the first stages of development {require- 
+ments and design) is particularly critical 
+since the cost of these errors escalates sig- 
+nificantly if they remain undiscovered until 
+construction or later. Until the develop- 
+ment products at the requirements and de- 
+sign stages become formalized, and hence 
+amenable to automated analysis, disci- 
+plined manual techniques will continue to 
+be the key verification techniques. 
+Many of the other techniques discussed 
+in Section 2 have not seen wide use. These 
+techniques appeal to our intuition, but we 
+have only anecdotal evidence that they 
+work. Howden showed in a study of a com- 
+mercial FORTRAN-based scientific library 
+\[IMSL78, HOWD80b\] that the success of 
+particular testing technique does not cor- 
+relate with structural or functional attri- 
+butes of the code. It was this study that led 
+Computing Surveys, Vol. 14, No. 2, June 1982
+
+184 • W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+Howden to develop the ideas of design- 
+based functional testing described in Sec- 
+tion 2.4. 
+Recently Howden performed a similar 
+study of a commercial COBOL-based gen- 
+eral ledger system \[HowD81b\], in which he 
+found that the errors were much different 
+from those in the IMSL library. As one 
+might expect, errors in the data definition 
+were much more common than errors in 
+the procedures. Moreover, the most com- 
+mon errors were due to missing logic (i.e., 
+various cases not being covered by program 
+logic) and thus invisible to any structurally 
+based technique. Glass \[GLAs81\] has noted 
+similar experiences with embedded soft- 
+ware. These experiences point up another 
+problem that most of the techniques de- 
+scribed in Section 2 are directed at proce- 
+dural languages with only rudimentary in- 
+put/output capability and are probably not 
+as useful when applied to COBOL and sim- 
+ilar languages. Test coverage will have to 
+be more closely tied to the requirements to 
+overcome this difficulty. Structural tech- 
+niques based on data-flow coverage rather 
+than control-flow coverage will need to be 
+developed as well. 
+The Howden studies point to the major 
+problem in testing: the lack of a sound 
+theoretical foundation. Besides the work of 
+Goodenough and Gerhart, Howden, and the 
+Lipton, DeMillo, Sayward, and Budd mu- 
+tation research we have made very little 
+progress toward developing a theoretical 
+basis from which to relate software behav- 
+ior to validation and verification. While 
+there have been efforts in this area by 
+White \[WHIT78\], Clarke and Richardson 
+\[RICH81\], Weyuker et al. 
+\[WEYU80, 
+OSTR80, 
+DAVI81\], and others, it clearly re- 
+quires considerably more research effort. 
+There are problems with these tech- 
+niques other than just the lack of a sound 
+theoretical basis. Many of the techniques 
+have major costs associated with custom- 
+izing them to the verification process (sim- 
+ulation) or high costs for their use (symbolic 
+execution), or unproved applicability in 
+practice (proof of correctness). Many of the 
+techniques are areas of intense current re- 
+search, but have not yet been developed or 
+proven sufficiently in the real world. Only 
+recently has validation and verification 
+been given the attention it deserves in the 
+development cycle. Budgets, except for a 
+few highly critical software projects, have 
+not included sufficient funds for adequate 
+testing. 
+Even with these problems, the impor- 
+tance of performing validation throughout 
+the life cycle is not diminished. One of the 
+reasons for the great success of disciplined 
+manual techniques is their uniform appli- 
+cability at requirements, design, and coding 
+phases. These techniques can be used with- 
+out massive capital expenditure. However, 
+to be most effective, they require a serious 
+commitment and a disciplined application. 
+Careful planning, clearly stated objectives, 
+precisely defined techniques, good manage- 
+ment, organized record keeping, and strong 
+commitment are critical to successful vali- 
+dation. 
+We view the integration of validation 
+with software development as crucial, and 
+we suggest that it be an integral part of the 
+requirements statement. Validation re- 
+quirements should specify the type of man- 
+ual techniques, the tools, the form of proj- 
+ect management and control, the develop- 
+ment methodology, and the acceptability 
+criteria that are to be used during software 
+development. These requirements are in 
+addition to the functional requirements of 
+the system ordinarily specified at this stage. 
+If this practice were followed, embedded 
+within the project requirements would be 
+a statement of work aimed at enhancing 
+the quality of the completed software. 
+A major difficulty with any proposal such 
+as the above, however, is that we have 
+neither the means of accurately measuring 
+the effectiveness of validation methods nor 
+the means of determining "how valid" the 
+software should be. We assume that it is 
+not possible to produce a "perfect" software 
+system and take as our goal getting as close 
+to perfect as can be reasonably (given these 
+constraints) required. In addition, what 
+constitutes perfect and how important it is 
+for the software to be perfect may vary 
+from project to project. Some software sys- 
+tems (such as those for reactor control) 
+have more stringent quality requirements 
+than other software (such as an address 
+label program). Defining "perfect" (by 
+specifying which quality attributes must be 
+
+Computing Surveys, Vol 14, No. 2, June 1982
+
+met) and determining its importance 
+should be part of the validation require- 
+ments. However, validation mechanisms 
+written into the requirements do not guar- 
+antee "perfect" software, just as the use of 
+a particular development methodology 
+does not guarantee high-quality software. 
+The evaluation of competing validation 
+mechanisms will be difficult. 
+A further difficulty is that validation 
+tools do not often exist in integrated pack- 
+ages. Since no one verification tool is suffi- 
+cient, this means that the group performing 
+the verification must acquire several tools 
+and learn several methods that may be 
+difficult to use in combination. This is a 
+problem that must receive careful thought 
+
+\[ADRI80, BRAN81a\], 
+for, unless the combi- 
+nation is chosen judiciously, their use can 
+lead to costs and errors beyond that nec- 
+essary to acquire them in the first place. 
+The merits of both the tool collection as a 
+whole and of any single tool must be con- 
+sidered. 
+The efforts described in Section 2.9 to 
+integrate verification techniques are very 
+important. At present the key to high qual- 
+ity remains the disciplined use of a devel- 
+opment methodology accompanied by ver- 
+ification at each stage of the development. 
+No single technique provides a magic solu- 
+tion. For this reason, the integration of tools 
+and techniques and the extension of these 
+to the entire life cycle is necessary before 
+adequate validation and verification be- 
+comes possible. 
+The current research on software support 
+systems and programming environments 
+\[BRAN81b, BARS81a, BARS81b, WAss81a, 
+WASS81b\] can have major impact on vali- 
+dation and verification. The use of such 
+environments has the potential to improve 
+greatly the quality of the completed soft- 
+ware. In addition, such systems may pro- 
+vide access by the user/customer to the 
+whole process, providing a mechanism for 
+establishing confidence in the quality of the 
+software \[CHER79b, CHER80\]. 
+Clearly, research is still necessary on the 
+basic foundations of verification, on new 
+tools and techniques, and on ways to inte- 
+grate these into a comprehensive and au- 
+tomated development methodology. More- 
+over, given the increasing cost of software, 
+
+• 
+185 
+
+both absolutely and as a proportion of total 
+system cost, and the increasing need for 
+reliability, it is important that management 
+apply the needed resources and direction 
+so that verification and validation can be 
+effective. 
+
+4. GLOSSARY 
+
+Audit. 
+See DOD 
+Development Reviews. 
+Black Box Testing. See Functional 
+Testing. 
+Boundary Value Analyses. A 
+selection 
+technique in which test data are chosen to 
+lie along "boundaries" of input domain (or 
+output range) classes, data structures, pro- 
+cedure parameters, etc. Choices often in- 
+clude maximum, minimum, and trivial val- 
+ues or parameters. This technique is often 
+called stress testing. (See Section 2.4.) 
+
+Branch Testing. 
+A test method satisfy- 
+ing coverage criteria that require that for 
+each decision point each possible branch be 
+executed at least once. (See Section 2.5.) 
+
+Cause-Effect Graphing. 
+Test data se- 
+lection technique. The input and output 
+domains are partitioned into classes and 
+analysis is performed to determine which 
+input classes cause which effect. A minimal 
+set of inputs is chosen that will cover the 
+entire effect set. (See Section 2.4.) 
+
+Certification. 
+Acceptance of software by 
+an authorized agent usually after the soft- 
+ware has been validated by the agent, or 
+after its validity has been demonstrated to 
+the agent. 
+Critical Design Review. See DOD 
+De- 
+velopment Reviews. 
+Complete Test Set. 
+A test set contain- 
+ing data that causes each element of a 
+prespecified set of Boolean conditions to be 
+true. Additionally, each element of the test 
+set causes at least one condition to be true. 
+(See Section 2.2.) 
+
+Consistent Condition Set. A 
+set of Bool- 
+lean conditions such that complete test sets 
+for the conditions uncover the same errors. 
+(See Section 2.2.) 
+
+Cyclomatic Complexity. 
+The cyclo- 
+matic complexity of a program is equivalent 
+to the number of decision statements plus 
+1. (See Section 2.5.) 
+
+Computing Surveys, Vol. 
+14, 
+No. 2, June 1982
+
+186 • W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+DD 
+(decision-to-decision) Path. A 
+path 
+of logical code sequence that begins at an 
+entry or decision statement and ends at a 
+decision statement or exit. (See Section 
+2.5.) 
+Debugging. The process of correcting 
+syntactic and logical errors detected during 
+coding. With the primary goal of obtaining 
+an executing piece of code, debugging 
+shares with testing certain techniques and 
+strategies, but differs in its usual ad hoc 
+application and local scope. 
+
+Design-Based Functional Testing. 
+
+The application of test data derived 
+through functional analysis (see Func- 
+tional 
+Testing) 
+extended to include design 
+functions as well as requirement functions. 
+(See Section 2.4.) 
+DOD Development Reviews. A series 
+of reviews required by DOD directives. 
+These include 
+(1) The Systems Requirements Review is 
+an examination of the initial progress 
+during the problem definition stage and 
+of the convergence on a complete sys- 
+tem configuration. Test planning and 
+test documentation are begun at this 
+review. 
+(2) The System Design Review occurs 
+when the system definition has reached 
+a point where major system modules 
+can be identified and completely speci- 
+fied along with the corresponding test 
+requirements. The requirements for 
+each major subsystem are examined 
+along with the preliminary test plans. 
+Tools required for verification support 
+are identified and specified at this 
+stage. 
+(3) The Preliminary Design Review is a 
+formal technical review of the basic de- 
+sign approach for each major subsys- 
+tem or module. The revised require- 
+ments and preliminary design specifi- 
+cations for each major subsystem and 
+all test plans, procedures, and docu- 
+mentation are reviewed at this stage. 
+Development and verification tools are 
+further identified at this stage. Changes 
+in requirements will lead to an exami- 
+nation of the test requirements to main- 
+tain consistency. 
+(4) The Critical Design Review occurs just 
+prior to the beginning of the construc- 
+tion stage. The complete and detailed 
+design specifications for each module 
+and all draft test plans and documen- 
+tation are examined. Again, consistency 
+with previous stages is reviewed, with 
+particular attention given to determin- 
+ing if test plans and documentation re- 
+flect changes in the design specifica- 
+tions at all levels. 
+(5) Two audits, the Functional Configu- 
+ration Audit and the Physical Config- 
+uration Audit are performed. The for- 
+mer determines if the subsystem per- 
+formance meets the requirements. The 
+latter audit is an examination of the 
+actual code. In both audits, detailed 
+attention is given to the documenta- 
+tion, manuals and other supporting ma- 
+terial. 
+(6) A Formal Qualification Review is per- 
+formed to determine through testing 
+that the final coded subsystem con- 
+forms with the final system specifica- 
+tions and requirements. It is essentially 
+the subsystem acceptance test. 
+Driver. Code that sets up an environ- 
+ment and calls a module for test. (See Sec- 
+tion 1.3.) 
+Dynamic Analysis. Analysis that is per- 
+formed by executing the program code. 
+(See Section 2.7.) 
+Dynamic Assertion. A dynamic analy- 
+sis technique that inserts assertions about 
+the relationship between program variables 
+into the program code. The truth of the 
+assertions is determined as the program 
+executes. (See Section 2.7.) 
+Error Guessing. Test data selection 
+technique. The selection criterion is to pick 
+values that seem likely to cause errors. (See 
+Section 2.4.} 
+Exhaustive Testing. Executing the pro- 
+gram with all possible combinations 
+of values for program variables. (See Sec- 
+tion 2.1.) 
+Extremal 
+Test Data. 
+Test data that is 
+at the extreme or boundary of the domain 
+of an input variable or which produces re- 
+sults at the boundary of an output domain. 
+(See Section 2.4.) 
+
+Computing Surveys, Vol. 14, No 2, ,June 1982
+
+Testing of Computer Software • 187 
+finite set of classes; one path from each 
+class is then tested. (See Section 2.5.) 
+
+Preliminary 
+Design Review. See DOD 
+
+Development Reviews. 
+
+Program Graph. Graphical representa- 
+tion of a program. (See Section 2.5.) 
+Proof of Correctness. The use of tech- 
+niques of mathematical logic to infer that 
+a relation between program variables as- 
+sumed true at program entry implies that 
+another relation between program variables 
+holds at program exit. (See Section 2.2.) 
+
+Regression Testing. 
+Testing of a pre- 
+viously verified program required following 
+program modification for extension or cor- 
+rection. (See Section 1.4.) 
+
+Simulation. 
+Use of an executable model 
+to represent the behavior of an object. Dur- 
+ing testing the computational hardware, the 
+external environment, and even code seg- 
+ments may be simulated. (See Section 2.2.) 
+
+Self-Validating Code. 
+Code which 
+makes an explicit attempt to determine its 
+own correctness and to proceed accord- 
+ingly. (See Section 2.7.) 
+
+Special Test Data. 
+Test data based on 
+input values that are likely to require spe- 
+cial handling by the program. (See Section 
+2.4.) 
+
+Statement Testing. 
+A test method sat- 
+isfying the coverage criterion that each 
+statement in a program be executed at least 
+once during program testing. (See Section 
+2.5.) 
+
+Static 
+Analysis, Analysis of an program 
+that is performed without executing the 
+program. (See Section 2.7.) 
+
+Stress Testing. See Boundary Value 
+Analysis. 
+Structural Testing. 
+A testing method 
+where the test data are derived solely from 
+the program structure. (See Section 2.5.) 
+Stub. Special code segments that, when 
+invoked by a code segment under test, will 
+simulate the behavior of designed and spec- 
+ified modules not yet constructed. (See Sec- 
+tion 1.3.) 
+Symbolic Execution. A static analysis 
+technique that derives a symbolic expres- 
+sion for each program path. (See Section 
+2.7.) 
+Coraputmg Surveys, VoL 14, No 2, June 1982
+
+• W.R.  Adrion,  M. A. Branstad,  and J. C.  Cherniavsky 
+System Design  Review.  See DOD  De- ALLE74 
+velopment Reviews. 
+System  Requirements Review.  See 
+DOD  Development  Reviews. 
+ALLE76 
+Test Data  Set. Set of input  elements 
+used  in the  testing  process.  (See Section 
+AMBL78 
+2.1.) 
+Test  Driver.  A program  that directs  the 
+execution  of another  program  against a  col- 
+lection  of test  data  sets. Usually  the test 
+driver  also records  and organizes  the output 
+generated  as the  tests  are run.  (See  Section 
+1.3.)  ANDR81 
+Test  Harness.  See Test  Driver. 
+Testing.  Examination  of the  behavior  of 
+a  program  by executing  the program  on 
+sample  data sets. 
+Valid 
+Input  (test data for a valid  input 
+domain). 
+Test  data that lie within  the ANSI78 
+domain  of the  function  represented by  the 
+program.  (See Section  2.1.) 
+APTSI Validation. Determination  of the  cor- 
+rectness  of the  final  program  or software 
+produced  from a development  project with 
+respect  to the  user  needs  and requirements.  BAKE72 
+Validation  is usually  accomplished  by ver- 
+ifying  each stage  of the  software  develop- 
+ment  life cycle. 
+Verification.  In general,  the demonstra- 
+tion  of consistency,  completeness,  and cor- 
+rectness  of the  software  at each  stage  and 
+between  each stage  of the  development  life 
+cycle. 
+Walk-Through.  A manual  analysis  tech- 
+BELL77 
+nique in which  the module  author describes 
+the  module's  structure  and logic  to an  au- 
+dience  of colleagues.  (See Section  2.2.) 
+White  Box Testing.  See Structural 
+BOEH77 
+Testing. 
+ACRE80 
+ADRIS0 
+BARS81a 
+ALFO77 
+BARs81b 
+REFERENCES BOEH78 
+ACREE,  A. "On  Mutation,"  Ph.D dis- 
+sertation,  Information  and Computer 
+Science  Dep, Georgia  Institute  of 
+Technology,  Atlanta, June, 1980 
+ADRION,  W  R. "Issues  in software  BOYE75 
+validation,  verification,  and testing," 
+ORSA/TIMS  Bull. (1980 TIMS-ORSA 
+Conf.)  10 (Sept.  1980),  80. 
+ALFORD,  M  W "A requirement  engi- 
+neering  methodology  for real-time 
+processing  requirements," 
+IEEE BRANS0 Trans Softw Eng SE-2,  1  (1977),  60- 
+69.  ALLEN, 
+F. E.  "Interprocedural  data 
+flow  analysis,"  in 
+Proc IFIP Congress 
+1974, North-Holland,  Amsterdam, 1974, 
+pp.  398-402. 
+ALLEN,  F. E,  AND  COCKE,  J.  "A pro- 
+gram  data  flow procedure," 
+Commun. 
+ACM 19,  3 (March  1976),  137-147. AMBLER, A. L.,  GOOD,  D. I., BROWNE, J C,  BURGER, W  F, COHEN,  R. M, 
+HOCH,  C. G  ,  AND  WELLS,  R. 
+E  "Gypsy:  A language  for specifica- 
+tion  and implementation  of verifiable 
+programs,"  m 
+Proc. Conf. Language 
+Design  for Reliable  Software,  D.  B. 
+Wortman (Ed.), ACM,  New York,  pp. 
+1-10. 
+ANDREWS,  D. M.,  AND  BENSON,  J. 
+P.  "An  automated  program  testing 
+methodology,  and its implementation," 
+in 
+Proc.  5th Int.  Conf.  Software Eng~- 
+neerzng (San  Diego,  Calif., March  9- 
+12),  IEEE  Computer  Society Press,  Sil- 
+ver  Spring,  Maryland,  1981, pp. 254- 
+261.  ANSI  X3 9-1978,  "FORTRAN,"  Amer- 
+ican  National  Standards  Institute, New 
+York,  1978. 
+APT,  S. R.,  "Ten  years  of  Hoare's 
+logic:  A survey--Part  I," 
+Trans.  Pro- 
+gram  Lang. Syst. 3, 4 (Oct.  1981),  431- 
+483.  BAKER,  V. T.  "Chief  programmer 
+team  management  of production  pro- 
+gramming," 
+IBM  Syst.  J 11, 1  (1972), 
+56-73. 
+BARSTOW,  D.  R., AND SHROBE,  H. E. 
+(Eds).  Special Issue  on  Programming 
+Environments, 
+IEEE  Trans.  Softw. 
+Eng. SE-7,  5 (Sept.  1981). 
+BARSTOW,  D R.,  SHROBE,  H, AND  SAN- 
+DEWALL,  E., Eds. 
+Interactwe  pro- 
+gramm~ng  enwronments, McGraw- 
+Hill,  New  York,  1981 
+BELL,  T. E.,  BIXLER,  D. C.,  AND  DYER, 
+M.E.  "An extendable  approach to 
+computer-alded  software requirements 
+engineering," IEEE  Trans.  Softw Eng. SE-3,  1 (1977),  49-60. 
+BOEHM,  B. W.,  "Seven  basic princi- 
+ples  of software  engineering,"  in 
+Soft- 
+ware  engineering  techniques, Infotech 
+State  of the  Art  Report,  Infotech,  Lon- 
+don,  1977. 
+BOEHM,  B. W,  BROWN,  J. R.,  KASPAR, 
+H.,  LiPow,  M., MACLEOD,  G. J,  AND MERRIT,  M.J. Characterlstws  of soft- 
+ware  quahty, North-Holland,  New 
+York,  1978. 
+BOYER,  R. S.,  ELSPAS,  B., AND  LEVITT, 
+K.N.  "SELECT--A  formal system 
+for  testing  and debugging  programs by 
+symbolic  execution,"  in 
+Proc. 1975 Int. Conf. Reliable  Software (Los Angeles, 
+April),  1975, pp 234-245. 
+BRANSTAD,  M. A,  CHERNIAVSKY,  J. C., 
+AND  ADRION,  W. R  "Validation,  ver- 
+ification,  and testing  for the  individual 
+Computing  Surveys, Vol 14, No  2, June  1982
+
+190 
+
+GERH80 
+GLAS81 
+GOOD75 
+HALS77 
+HAMI76 
+HANT76 
+HECH72 
+HOWD76 
+HOWD77 
+HOWD78 
+HowD80a 
+HowD80b 
+HowD81a 
+HowD81b 
+
+W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+
+Information Sciences Institute, Marina IEEE79 del Rey, Calif., Aug. 1978. GERHART, S. L., MUSSER, D. R, THOMPSON, D. H., BAKER, D. A., BATES, R. L, ERICKSON, R W., LON- DON, R. L., TAYLOR, D. G., AND WILE, IMSL78 D. S "An overview of AFFIRM, A specification and verification system," in 
+Proc. IFIP Congress 1980, 
+North- INFO79 Holland, Amsterdam, pp. 343-347 GLASS, R.L. "Persistent software er- rors," 
+IEEE Trans Softw Eng. 
+SE-7, JACK79 2 (March 1981), 162-168. GOODENOUGH, J. B., AND GERHART, S. L. "Toward a theory of test data se- JONE76 lection," 
+IEEE Trans Softw. Eng 
+SE- 1, 2 (March 1975). HALSTEAD, M. H. 
+Elements of soft- ware science, 
+Elsevier North-Holland, KERN74 New York, 1977 HAMILTON, N., AND ZELDIN, S. "Higher order software--A methodol- ogy for defining software," 
+IEEE Trans Softw Eng 
+SE-2, 1 (1976), 9- KING76 32. HANTLER, S L, AND KING, J.C. "An introduction to proving the correctness KoPP76 of programs," 
+Comput. Surv. 
+(ACM) 8, 3 (Sept. 1976), 331-353 HECHT, M., AND ULLMAN, J. "Flow- graph reducibility," 
+SIAM J Appl. Math 
+1 (1972), 188-202. HOWDEN, W. E "Reliability of the LAMB78 path analysis testing strategy," 
+IEEE Trans. Softw. Eng. 
+SE-2, 3 (1976). 
+HOWDEN, W. E. "Symbolic testing and the DISSECT symbolm evaluation system," 
+IEEE Trans Softw Eng 
+SE- 3, 4 (1977), 266-278 LIPT78 
+HOWDEN, W E. "A survey of dynamic analysis methods," m E. Miller and W. E. Howden (Eds), 
+Tutorial. Software testzng and vahdatton techniques, 
+IEEE Computer Soc, New York, 1978 LUCK79 HOWDEN, W.E. "Functional program testing," 
+IEEE Trans. Soft. Eng 
+SE-6, 2 (1980), 162-169 
+HOWDEN, W.E. "Applicablhty of soft- ware validation techniques to scientific programs," 
+Trans Program Lang. Syst 
+2, 3 (June 1980), 307-320. LYON74 HOWDEN, W E. "Completeness cri- teria for testing elementary program functions," in 
+Proc 5th Int Conf on Software Engineering 
+(San Dingo, MAIT80 March 9-12), IEEE Computer Society Press, Silver Spring, Md., 1981, pp 235- 243. HOWDEN, W E "Errors in data processing programs and the refine- MANN74 merit of current program test method- ologies," Final Rep, NBS Contract NB79BCA0069, Natmnal Bureau of McCA76 Standards, Washington, D C., July 1981. 
+IEEE. Draft Test Documentation Standard, IEEE Computer Socmty Technical Committee on Software En- gineering, Subcommittee on Software Standards, New York, 1979 IMSL. 
+L~brary reference manual. 
+In- ternational Mathematical and Statisti- cal Libraries, Houston, Tex., 1978. INFOTECH 
+Software testing, IN- FOTECH state of the art report, 
+Info- tech, London, 1979 
+JACKSON, 
+M A 
+Prmctples of pro- gram design, 
+Academic Press, New York, 1975. JONES, C "Program quality and pro- grammer productivity," IBM Tech Rep., International Business Machines Corp., San Jose, Calif, 1976. KERNIGHAN, B. W. "RATFOR--A preprocessor for a rational FOR- TRAN," Bell Labs. Internal Memoran- dum, Bell Laboratorms, Murray Hill, N.J., 1974. KING, J.C. "Symbolic execution and program testing," 
+Commun. ACM 
+19, 7 (July 1976), 385-394. KOPPANG, R.G. "Process design sys- tem-An integrated set of software de- velopment tools," in 
+Proc. 2nd Int Soft- ware Engineering Conf 
+(San Fran- ciisco, Oct. 13-15), IEEE, New York, 1976, pp. 86-90. LAMB, S S, LECK, V G, PETERS, L. J., 
+AND SMITH, 
+G L "SAMM" A model- ing tool for requirements and design specification," in 
+Proc COMPSAC 78, 
+IEEE Computer Society, New York, 1978, pp 48-53. 
+LIPTON, 
+R. J, 
+AND SAYWARD, 
+F G "The status of research on program mutation," in 
+Proc Workshop on Soft- ware Testing and Test Documentatmn, 
+IEEE Computer Society, New York, 1978, pp. 355-367. LUCKHAM, D., GERMAN, S., VON HENKE, F., KARP, R, MILNE, P, OPPEN, D., POLAK, W., AND SCHENLIS, W. "Stanford Pascal Verifier user's man- ual," AI Memo. CS-79-731, Computer Science Dep., Stanford University, Stanford, Calif, 1979. LYON, G, AND STILLMAN, R.B. "A FORTRAN analyzer," NBS Tech Note 849, National Bureau of Standards, Washington, D.C., 1974. MAITLAND, R "NODAL," In 
+NBS software tools database, 
+R. Houghton and K. Oakley (Eds.), NBSIR, National Bureau of Standards, Washington, D C, 1980. MANNA, Z. 
+Mathematical theory of computation, 
+McGraw-Hill, New York, 1974 MCCABE, T. J. "A complexity mea- sure," 
+IEEE Trans. Softw Eng 
+SE-2, 4 {1976), 308-320 
+Computing Surveys, Vol 14, No. 2, June 1982
+
+METZ77 
+
+MILL70 
+MILL72 
+
+MILL75 
+
+MILL77 
+MILS76 
+
+MYER76 
+MYER79 
+NEUM75 
+OSTE76 
+OSTE80 
+
+OSTRS0 
+
+PAIG77 
+PANZ78 
+PARN77 
+
+Validation, Verification, and Testing of Computer Software • 
+191 
+
+MCCALL, J., RICHARDS, P., AND WAL- TERS, G 
+Factors tn software quahty, 
+vols. 1-3, NTIS Rep File Nos. AD- A049-014, 015, 055, 1977. METZNER, J. R., AND BARNES, B. PRAT77 
+H Dectsmn table languages and sys- tems, 
+Academic Press, New York, 1977. MILLS, H D "Top down program- ming in large systems," in 
+Debugging techntques m large systems, 
+R. Rustin (Ed), Prentice-Hall, Englewood Cliffs, RAMA74 N J., 1970, pp 41-55. MILLS, H. D "On statistical vahda- tlon of computer programs," IBM Rep. FSC72-6015, Federal Systems Division, IBM, Gaithersburg, Md, 1972. RICH81 MILLER, 
+E F., 
+JR. "RXVP--An au- tomated verification system for FOR- TRAN," in 
+Proc. Workshop 4, Com- puter Science and Stattstws" 8th Ann. Syrup on the Interface 
+(Los Angeles, Calff, Feb ), 1975. MILLER, E. R., JR. "Program testing RoBI79 Art meets theory," 
+Computer 
+10, 7 (1977), 42-51 MILITARY STANDARD. "Technical re- Ross77 views and audits for systems, equip- ment, and computer programs," MIL- STD-1521A (USAF), U.S. Department of the Air Force, Washington, D.C, ROUB76 1976. MYERS, G. J. 
+Software rehabthty-- Prtnctples and practtces, 
+Wiley, New York, 1976 SCHI78 MYERS, G.J. 
+The art of software test- tng, 
+Wiley, New York, 1979. 
+NEUMANN, P G., ROBINSON, L, LEV- ITT, K., BOYER, R S., 
+AND SAXEMA, 
+A. R. "A provably secure operating sys- SNEE78 tern," SRI Project 2581, SRI Interna- tional, Menlo Park, Calif., 1975 OSTERWEIL, L. J., AND FOSDICK, L. D. "DAVE--A validation, error de- tection, and documentation system for FORTRAN programs," 
+Softw. Pract. 
+SRS79 
+Exper 
+6 (1976), 473-486 OSTERWEIL, L.J. "A strategy for ef- fective integration of verification and testing techniques," Tech Rep. CU-CS- STUC77 181-80, Computer Science Dep., Univ. of Colorado, Boulder, 1980. OSTRAND, T. J., AND WEYUCKER, E J "Current directions in the theory of testing," in 
+Proc IEEE Computer Soft- ware and Apphcttons Conf. (COMP- SACSO), 
+IEEE Press, Silver Spring, TAUS77 Md, 1980, pp. 386-389. PAIGE, M. R. "Oil partitioning pro- gram graphs," 
+IEEE Trans. Soflw Eng. 
+SE-3, 6 (1977), 87, 386-393 TEIC77 PANZL, D J "Automatic revision of formal test procedures," in 
+Proc 3rd Int Conf Software Engtneermg 
+(At- lanta, May 10-12), ACM, New York, 1978, pp. 320-326 PARNAS, D L "The use of precise WASS81a 
+specifications in the development of software," in 
+Informatwn processing 77, 
+B. Gilchrist (Ed.), North-Holland, Amsterdam, 1977, pp. 861-867. PRATT, V R. "Semantic considera- tions m Floyd-Hoare logic," m 
+Proc. 17th Annu. IEEE Symp. on the Foun- dations of Computer Science, 
+IEEE Computer Society Press, Long Beach, Cahf, 1976, pp. 109-112. 
+RAMAMOORTHY, C. V., 
+AND Ho, 
+S 
+F. FORTRAN automated code eval- uation system, ERL--M466, Electron- ics Research Lab., Univ. of California, Berkeley, 1974. 
+RICHARDSON, D. J., AND CLARKE, L. 
+A. "A partition analysis method to m- crease program reliability," in 
+Proe 5th Int Conference SoftwareEngmeermg 
+(San Diego, March 9-12), IEEE Com- puter Society Press, Silver Spring, Md, 1981, pp. 244-253. ROBINSON, L. 
+The HDM handbook, 
+vol. I-III, SRI Project 4828, SRI Inter- national, Menlo Park, Calif., 1979. Ross, D T., AND SCHOMAN, K. E., JR. "Structured analysis for reqmre- ments definition," 
+IEEE Trans Softw. Eng. 
+SE-3, 1 (1977), 6-15. ROUBINE, 
+O., AND ROBINSON, L. 
+Special Reference Manual, Stanford Research Institute Tech. Rep CSG-45, Menlo Park, Calif., 1976. SCHICK, G. J., AND WOLVERTON, R. W. "An analysis of competing "soft- ware reliability models," 
+IEEE Trans. Softw 
+Eng. 
+SE-4 
+(March, 1978), 104- 120. 
+SNEED, H., AND KIRCHOFF, 
+K "Prufstand--A testbed for sys- tematic software components," in 
+Proc INFOTECH State of the Art Conf. Software Testing, 
+Infotech, London, 1978. SRS 
+Proc. Specifications of Rehable Software Conference, 
+IEEE Catalog No. CH1401-9C, IEEE, New York, 1979. STUCK1, L.G. "New directions in au- tomated tools for improving software quality," in R. Yeh (Ed), 
+Current trends m programming methodology, 
+vol 
+II--Program validation, 
+Prentice- Hall, Englewood Cliffs, N J., 1977, pp. 80-111. TAUSWORTHE, R. C. 
+Standar&zed development of computer software, 
+Prentice-Hall, Englewood Cliffs, N J., 1977. 
+TEICHROEW, D., 
+AND HERSHEY, 
+E. A, 
+III 
+"PSL/PSA: 
+A computer-aided technique for structured documenta- tion and analysis of information proc- essing systems," 
+IEEE Trans. Softw. Eng 
+SE-3, 
+1 (Jan. 1977), 41-48. 
+WASSERMAN, 
+A. (Ed.). Special Issue 
+Computing Surveys, Vol. 14, No 2, June 1982
+
+192 
+WASs81b 
+WEIN71 
+
+WEYU80 
+
+W. R. Adrion, M. A. Branstad, and J. C. Cherniavsky 
+
+on Programming Environments, 
+Corn- 
+WHIT78 
+puter 
+14, 4 (Apr. 1981). WASSEm~tAN, A. (Ed.). 
+Tutorial: Soft- ware development enwronments, 
+IEEE Computer Society, Silver Spring, Md., 1981. 
+WEINBERG, 
+G M 
+The psychology of computer programming, 
+Van Nos- YouR79 trand-Reinhold, Prmceton, N J., 1971 WEYUCKER, E. J., 
+AND OSTRAND, 
+T. J. "Theories of program testing and the application of revealing subdo- ZELK78 mains," 
+IEEE Trans. Softw. Eng. 
+SE- 6 (May, 1980), 236-246. 
+
+WHITE, 
+L. J., 
+AND COHEN, 
+E. I. "A domain strategy for computer program testing," 
+Digest for the Workshop on Software Testing and Test Documen- tation 
+(Ft. Lauderdale, Fla ), pp 335- 354. Also appears in 
+IEEE Trans. Softw. Eng. 
+SE-6 (May 1980), 247-257. 
+
+YOURDON, E., AND CONSTANTINE, L. 
+L. Structured design, 
+Prentice-Hall, Englewood Cliffs, N.J., 1979. 
+
+ZELKOWITZ, 
+M. V. "Perspectives on software engineering," 
+Comput. Surv. 
+(ACM) 10, 2 (June 1978), 197-216 
+Recewed January 1980; final revision accepted March 1982 
+
+Computmg Surveys, Vol 14, No 2, June 1982
