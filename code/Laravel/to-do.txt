@@ -1,3 +1,4 @@
 -	Create XML read-write interface for document_tree.xml
 	# read : https://www.guru99.com/php-and-xml.html
-	
+-	Read about rabbitMq from this free e-book :
+		https://www.cloudamqp.com/rabbitmq_ebook.html
