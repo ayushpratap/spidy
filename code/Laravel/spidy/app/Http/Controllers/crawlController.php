@@ -5,40 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Collection;
-
+use App\Custom\ApacheTika\ApacheTika as ApacheTika;
+use Elasticsearch\ClientBuilder;
 
 class crawlController extends Controller
-{
-    // TO-DO : Check for Laravel addon for documentation or some other sublime tool
-    
-  	public function crawler()
-  	{
-        set_time_limit(0);
-        $start = microtime();
+{   
+    public function crawler()
+    {
         $dirPath = '/home/development/pdf_root';
         $this->getFileFolderTree($dirPath);
-        $end = microtime();
-        echo "Total time taken :".($end-$start)."sec<br/>";
-  	}
+        return redirect()->route('home');
+    }
 
     public function getFileFolderTree($rootDirectory)
     {
-      echo "getFileFolderTree<br/>";
         if(0 == (File::directories($rootDirectory)))
         {
           $this->searchFiles($rootDirectory);
-          return;
         }
         else
         {
           $this->goIntoFolder($rootDirectory);
-          return;
         }
     }
 
     public function goIntoFolder($dirPath)
     {
-      echo "goIntoFolder<br/>";
       // Get all the direct sub folders of the root folder
       try
       {
@@ -47,25 +39,18 @@ class crawlController extends Controller
       catch(\App\Exceptions\InvalidArgumentException $e)
       {
         echo $e->getMessage(); 
-        return false;       
       }
      
       if(count($dirList) == 0)
       {
         //search for files now
-        if($this->searchFiles($dirPath))
-          return true;
-        else
-          return false;
+        $this->searchFiles($dirPath);
       }
       else
       {
         // Loop through the list of diectories
         foreach ($dirList as $dir) 
         {
-          // Print name of the selected directory
-          echo "Folder name : ",basename($dir)," Parent Folder :",basename($dirPath),"<br/>";
-
           // Recursivly search selected directory
           $this->goIntoFolder($dir); 
         }
@@ -74,11 +59,8 @@ class crawlController extends Controller
 
     public function searchFiles($dirPath)
     {
-      echo "searchFiles<br/>";
       // Read all files
       $files = File::files($dirPath);
-      $result = false;
-
       // If no files exists
       if(count($files) > 0)
       {
@@ -88,46 +70,45 @@ class crawlController extends Controller
            if(0 == strcasecmp('pdf',File::extension($file)))
            {
               // Read the file
-              //echo "2. Reading files from : ",$dirPath;
-              if($this->readFileData($file))
-                $result = true;
-              else
-                $result = false;
+              //echo "2. Reading files from :",$dirPath;
+              $this->readFileData($file);
            }
-           echo "<hr>";
         }   
-        if($result)     
-          $result = ture;
-        else
-          $result = false;
       }
-      return $result;
     }
 
     public function readFileData($file)
     {
-      echo "readFileData<br/>";
-      //echo "Reading file : ",$file,"<br/>";
-        // Read the file using PdfToText
-        
-        // Build PdfTotext object
-        $parser = new \Smalot\PdfParser\Parser();
-        $pdfLoad = $parser->parseFile($file);
-        $content = $pdfLoad->getText();
-        $txtFilename = basename($file).".txt";
-        $bytesWritten = File::append($txtFilename,$content);
-        if($bytesWritten)
-        {
-          echo "success : ",$file;
-          return true;
-        }
-        else
-        {
-          echo "Faliure : ",$file;
-          return false;
-        }
-        unset($parser);
+      // Create elasticsearch handle
+      $elasticsearchHandle = ClientBuilder::create()->build();
 
-        // Retrieve all details    
+      // Create Apache Tika handle
+      $tikaHandle = ApacheTika::make();
+      
+      // Get the content of file : @var $file
+      $content = $tikaHandle->getText($file);
+
+      // Get the base name of the file
+      $file_name = basename($file);
+      // Escape epecial characters
+      
+      // Create JSON equivalent associative array
+      
+      $param = [
+        'index' =>  'document',
+        'type'  =>  'pdf',
+        'body'  =>  [
+                      'file_name' =>  $file_name,
+                      'file_body' =>  $content
+                    ]
+      ];      
+
+      // Send it to elasticsearch
+      $response = $elasticsearchHandle->index($param);
+      //print_r($response);
+      //echo "<br/><hr>";
+     // echo "File name : ",$file_name,"<br/>";
+      //echo "<br/>";
+      //echo "Body </br/> <hr>",$content;
     }
-}
+  }
