@@ -4,34 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use File;
+use App\Custom\ApacheTika\ApacheTika as ApacheTika;
+use Elasticsearch\ClientBuilder;
+
 class testController extends Controller
 {
     public function crawler()
     {
-    	$dirPath = '/home/rex/1';
-    	try
-      {
-        $dirList = File::directories($dirPath);
-      }
-      catch(\App\Exceptions\InvalidArgumentException $e)
-      {
-        require $e->getMessage();        
-      }
-        // Loop through the list of diectories
-        foreach ($dirList as $dir) 
-        {
-          // Print name of the selected directory
-         // echo "-Folder name : ",basename($dir)," Parent Folder :",basename($dirPath),"<br/>";
-        	echo basename($dir),"<br/>";
+        $tikaServer = ApacheTika::make();
+        $tikaServer->show();
+        $text = $tikaServer->getText('/home/development/pdf_root/annual_report_2009.pdf');
+        echo '<hr>Text<hr><br/>'.$text.'<br/><hr>';
+    }
 
-          // Recursivly search selected directory
-       //   $this->goIntoFolder($dir); 
-        }
-        echo "<hr><br/>";
-      }
+    public function search()
+    {
+    	$client = ClientBuilder::create()->build();
 
-      public function phpinfo()
-      {
-        phpinfo();
-      }
+    	$param = [
+    		'index'	=>	'document',
+    		'type'	=>	'pdf',
+    		'body'	=>	[
+    			'query'	=>	[
+    				'match'	=>	[
+    					'file_body'	=>	'have a problem of Split brain situations'
+    				]
+    			]
+    		]
+    	];
+
+    	$response = $client->search($param);
+    	print_r($response);
+    }
 }
