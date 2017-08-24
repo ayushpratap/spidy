@@ -13,8 +13,10 @@ class testController extends Controller
     {
         $tikaServer = ApacheTika::make();
         $tikaServer->show();
-        $text = $tikaServer->getText('/home/development/pdf_root/annual_report_2009.pdf');
-        echo '<hr>Text<hr><br/>'.$text.'<br/><hr>';
+        //$text = $tikaServer->getText('/home/development/pdf_root/annual_report_2009.pdf');
+        //echo '<hr>Text<hr><br/>'.$text.'<br/><hr>';
+        $metaData = $tikaServer->getMetaData('/home/development/pdf_root/tika_tutorial.pdf');
+        print_r($metaData);
     }
 
     public function search()
@@ -26,8 +28,8 @@ class testController extends Controller
     		'type'	=>	'pdf',
     		'body'	=>	[
     			'query'	=>	[
-    				'match'	=>	[
-    					'file_body'	=>	'have a problem of Split brain situations'
+    				'match_phrase'	=>	[
+    					'file_body'	=>	'just some random words'
     				]
     			]
     		]
