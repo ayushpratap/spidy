@@ -26,7 +26,7 @@ class testController extends Controller
     	$client = ClientBuilder::create()->build();
 
     	$param = [
-    		'scroll'=>	'30s',
+    		'scroll'=>	'5s',
     		'size'	=>	5,
     		'index'	=>	'document',
     		'type'	=>	'pdf',
