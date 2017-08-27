@@ -55,6 +55,7 @@ class crawlController extends Controller
           $this->goIntoFolder($dir); 
         }
       }
+      $this->searchFiles($dirPath);
     }
 
     public function searchFiles($dirPath)
@@ -79,33 +80,34 @@ class crawlController extends Controller
 
     public function readFileData($file)
     {
+      //echo "Filname : ",$file,"<br/>";
       // Create elasticsearch handle
-      $elasticsearchHandle = ClientBuilder::create()->build();
+            $elasticsearchHandle = ClientBuilder::create()->build();
 
       // Create Apache Tika handle
-      $tikaHandle = ApacheTika::make();
+            $tikaHandle = ApacheTika::make();
       
       // Get the content of file : @var $file
-      $content = $tikaHandle->getText($file);
+            $content = $tikaHandle->getText($file);
 
       // Get the base name of the file
-      $file_name = basename($file);
+              $file_name = basename($file);
       // Escape epecial characters
       
       // Create JSON equivalent associative array
       
-      $param = [
+        $param = [
         'index' =>  'document',
         'type'  =>  'pdf',
         'body'  =>  [
                       'file_name' =>  $file_name,
                       'file_body' =>  $content
                     ]
-      ];      
+      ];
 
       // Send it to elasticsearch
-      $response = $elasticsearchHandle->index($param);
-      //print_r($response);
+        $response = $elasticsearchHandle->index($param);
+      print_r($response);
       //echo "<br/><hr>";
      // echo "File name : ",$file_name,"<br/>";
       //echo "<br/>";

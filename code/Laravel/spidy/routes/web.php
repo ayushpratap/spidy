@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\Input;
+use Elasticsearch\ClientBuilder;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,13 +16,19 @@
 //Route for index page
 Route::get('/',function(){
 	return view('welcome');
-});
+})->name('home');
 
 //Start the crawler
 Route::get('/crawl','crawlController@crawler');
 //Route::get('/crawl','testController@crawler');
 
-Route::get('/phpinfo','testController@phpinfo');
-Route::get('/search_page',function(){
+Route::get('/info',function(){
+	return phpinfo();
+});
+Route::post('/search','testController@search');
+
+Route::get('/search',function(){
 	return view('search_page');
 });
+
+//Route::get('/search_test','testController@search');
