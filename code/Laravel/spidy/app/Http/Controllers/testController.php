@@ -22,12 +22,14 @@ class testController extends Controller
     public function search(Request $request)
     {
     	$q = $request->q;
+    	$searchValue = $q;
+    	//die($q);
     	$q = "'".$q."'";
     	$client = ClientBuilder::create()->build();
 
     	$param = [
-    		'scroll'=>	'5s',
-    		'size'	=>	5,
+    		'scroll'=>	'30s',
+    		'size'	=>	100,
     		'index'	=>	'document',
     		'type'	=>	'pdf',
     		'body'	=>	[
@@ -39,20 +41,26 @@ class testController extends Controller
     		]
     	];
     	$response = $client->search($param);
-    	echo "<pre>",print_r($response),"</pre>";
+    	/*echo "<pre>",print_r($response),"</pre>";
     	echo "<hr><pre>";
-    	$i = 1;
-    	while (isset($response['hits']['hits']) && count($response['hits']['hits'])) {
-    		print_r($response['hits']['hits']);
+    	$i = 1;*/
+    	//dd($response);
+    	//die();
+    	/*while (isset($response['hits']['hits']) && count($response['hits']['hits'])) {
+    	//	print_r($response['hits']['hits']);
     		$scroll_id = $response['_scroll_id'];
-    		$response = $client->scroll([
-    				'scroll_id'	=>	$scroll_id,
-    				'scroll'	=>	'5s'
-    			]);
-    	}
-    	echo "</pre>";
-
-die();
+    		$test = 	$client->scroll([
+    						'scroll_id'	=>	$scroll_id,
+    						'scroll'	=>	'30s'
+    						]);
+    		array_push($response,$test);
+    		echo "Test";
+    		//dd($response['hits']['hits']);
+    	}*/
+    	//echo "</pre>";
+    	//dd($response);
+    	//dd($response);
+//die();
 //    	$response = $client->search($param);
 // 	  	echo "<pre>",print_r($response),"</pre>";
 //    	die('i am dead');
@@ -69,7 +77,8 @@ die();
     	//print_r($send);
     	//die();
     	return view('search_page',['responses' => $send,
-    								'hits'	   => $hits
+    								'hits'	   => $hits,
+    								'searchValue'=>	$searchValue
     		]);
     	//echo '<pre>',print_r($response),'</pre>';
     	//return $response;
