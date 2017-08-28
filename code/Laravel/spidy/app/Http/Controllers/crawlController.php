@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-//include 'vendor/autoload.php';
+
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Collection;
@@ -12,19 +12,24 @@ class crawlController extends Controller
 {   
     public function crawler()
     {
-        $dirPath = '/home/development/pdf_root';
+        $dirPath = '/home/development/pdf_test';
         $this->getFileFolderTree($dirPath);
+
+        // Redirects to home page
         return redirect()->route('home');
     }
 
     public function getFileFolderTree($rootDirectory)
     {
+        //Check if root directory contains other directories
         if(0 == (File::directories($rootDirectory)))
         {
+          // No other directories are found then read files
           $this->searchFiles($rootDirectory);
         }
         else
         {
+          // If other directories are found then go into sub-directories
           $this->goIntoFolder($rootDirectory);
         }
     }
@@ -34,6 +39,7 @@ class crawlController extends Controller
       // Get all the direct sub folders of the root folder
       try
       {
+        //  Get all the files
         $dirList = File::directories($dirPath);
       }
       catch(\App\Exceptions\InvalidArgumentException $e)
@@ -43,7 +49,7 @@ class crawlController extends Controller
      
       if(count($dirList) == 0)
       {
-        //search for files now
+        //  Search for files now
         $this->searchFiles($dirPath);
       }
       else
@@ -55,23 +61,29 @@ class crawlController extends Controller
           $this->goIntoFolder($dir); 
         }
       }
+
+      //  Search for files
       $this->searchFiles($dirPath);
     }
 
     public function searchFiles($dirPath)
     {
-      // Read all files
+      // Array of files in directory : @var $dirPath
       $files = File::files($dirPath);
-      // If no files exists
+
+      // If files exists
       if(count($files) > 0)
       {
+
+        //  Loop through array and read files
         foreach ($files as $file) 
         {
+
           // Check if file is a pdf file.
            if(0 == strcasecmp('pdf',File::extension($file)))
            {
+            
               // Read the file
-              //echo "2. Reading files from :",$dirPath;
               $this->readFileData($file);
            }
         }   
@@ -80,7 +92,6 @@ class crawlController extends Controller
 
     public function readFileData($file)
     {
-      //echo "Filname : ",$file,"<br/>";
       // Create elasticsearch handle
             $elasticsearchHandle = ClientBuilder::create()->build();
 
@@ -90,12 +101,13 @@ class crawlController extends Controller
       // Get the content of file : @var $file
             $content = $tikaHandle->getText($file);
 
+      //  Get meta data of file : @var $file            
+            $meta = $tikaHandle->getMetaData($file);
+
       // Get the base name of the file
               $file_name = basename($file);
-      // Escape epecial characters
       
       // Create JSON equivalent associative array
-      
         $param = [
         'index' =>  'document',
         'type'  =>  'pdf',
@@ -105,12 +117,7 @@ class crawlController extends Controller
                     ]
       ];
 
-      // Send it to elasticsearch
+      // Index the document
         $response = $elasticsearchHandle->index($param);
-      print_r($response);
-      //echo "<br/><hr>";
-     // echo "File name : ",$file_name,"<br/>";
-      //echo "<br/>";
-      //echo "Body </br/> <hr>",$content;
     }
   }
