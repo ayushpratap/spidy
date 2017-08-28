@@ -3,6 +3,7 @@
 namespace App\Custom\ApacheTika\Modes;
 
 use App\Custom\ApacheTika\ApacheTika;
+use App\Custom\ApacheTika\MetaData\MetaData;
 use Exception;
 
 /**
@@ -109,8 +110,7 @@ class ServerMode extends ApacheTika
 			case 200:
 					if($type == 'meta')
 					{
-						// Write code for metadata extraction later.
-						//$response = Metadata::make($response, $file);
+						$response = Metadata::make($response, $file);
 					}
 					break;
 			case 204:
