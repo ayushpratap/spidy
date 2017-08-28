@@ -30,5 +30,3 @@ Route::post('/search','testController@search');
 Route::get('/search',function(){
 	return view('search_page');
 });
-
-//Route::get('/search_test','testController@search');
