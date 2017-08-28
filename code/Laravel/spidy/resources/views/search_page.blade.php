@@ -6,6 +6,7 @@
 	<!-- Bootstrap CSS-->
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap/bootstrap.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
+	<link rel="icon" href="{!! asset('img/flash.png') !!}"/>
 </head>
 <body>
 	<div class="container">
@@ -24,7 +25,7 @@
 			<form action="/search" method="POST" role="search">
 				{{ csrf_field() }}
 					<div  class="input-group">
-						<input type="text" class="form-control" name="q" placeholder="Search here">
+						<input type="text" class="form-control" name="q" placeholder="Search here" required>
 						<span class="input-group-btn">
 							<button type="submit" class="btn btn-default">
 								<span>Search<!--	Add glyphicon here	--></span>
@@ -34,7 +35,7 @@
 			</form>
 		</div>
 
-		<!--	Ouutput	-->
+		<!--	Output	-->
 		<div class="container">
 			<table class="table">
 				@if(isset($hits))
@@ -44,15 +45,38 @@
 						</tr>
 					</th>
 					@if($hits > 0)
-						@foreach($responses as $response)
-							<tr>
-								<td>
-									<p>
-										{{ $response['_source']['file_name'] }}
-									</p>		
-								</td>
-							</tr>
-						@endforeach
+						@if($hits > 1)
+							@for($i = 0 ; $i < count($responses['hits']['hits']); $i++)
+								<tr>
+									<td>
+										<p>
+											{{ $responses['hits']['hits'][$i]['_source']['file_name'] }}
+										</p>
+									</td>
+								</tr>
+							@endfor
+							@for($i = 0 ; $i <= $hits-2; $i++)
+								@for($j = 0 ; $j < count($responses[$i]['hits']['hits']) ;$j++)
+									<tr>
+										<td>
+											<p>
+												{{ $responses[$i]['hits']['hits'][$j]['_source']['file_name'] }}
+											</p>
+										</td>
+									</tr>
+								@endfor
+							@endfor
+						@else
+							@for($i = 0 ; $i < count($responses['hits']['hits']) ;$i++)
+								<tr>
+									<td>
+										<p>
+											{{ $responses['hits']['hits'][$i]['_source']['file_name'] }}
+										</p>		
+									</td>
+								</tr>
+							@endfor
+						@endif
 					@endif
 					@if($hits == 0)
 						<tr>
